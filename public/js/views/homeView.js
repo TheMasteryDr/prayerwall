@@ -1,0 +1,201 @@
+/**
+ * Home / Landing View - Flaming Prayer Wall
+ */
+const HomeView = {
+  async render() {
+    const main = document.getElementById('main-content');
+    if (!main) return;
+
+    // Show initial skeleton layout while fetching
+    main.innerHTML = `
+      <section class="hero-section">
+        <div class="container hero-content">
+          <div class="hero-subtitle-pill">🔥 Fire on My Altar • Continuous Intercession</div>
+          <h1 class="hero-title">FLAMING PRAYER WALL</h1>
+          <p class="hero-description">
+            "The fire on the altar must be kept burning; it must not go out." Bring your petitions to the altar, let fellow intercessors stand in faith with you, and receive personal pastoral prayer from PDaniel Olawande.
+          </p>
+          <div class="hero-actions">
+            <a href="#/submit" class="btn btn-gold btn-lg">Share a Prayer Request</a>
+            <a href="#/prayers" class="btn btn-outline btn-lg">Pray for Someone</a>
+          </div>
+        </div>
+      </section>
+      <div class="container" style="padding-block: 2rem;">
+        <div class="skeleton skeleton-card" style="height: 120px;"></div>
+      </div>
+    `;
+
+    try {
+      const data = await API.getOverview();
+      const stats = data.stats || {};
+      const settings = data.settings || {};
+      const recentPrayers = data.recentPrayers || [];
+
+      main.innerHTML = `
+        <!-- HERO SECTION -->
+        <section class="hero-section">
+          <div class="container hero-content">
+            <div class="hero-subtitle-pill">
+              🔥 Fire On My Altar • Continuous Intercession
+            </div>
+            <h1 class="hero-title">
+              YOU'RE NOT PRAYING ALONE.
+            </h1>
+            <p class="hero-description">
+              "The fire on the altar must be kept burning; it must not go out." (Leviticus 6:12). Bring your burdens, health battles, family desires, and spiritual petitions to this altar. Intercessors across nations and PDaniel Olawande stand ready to lift you up in prayer.
+            </p>
+            <div class="hero-actions">
+              <a href="#/submit" class="btn btn-gold btn-lg">
+                <span>🔥</span> Share a Prayer Request
+              </a>
+              <a href="#/prayers" class="btn btn-outline btn-lg">
+                <span>🙏</span> Pray for Someone
+              </a>
+            </div>
+
+            <!-- SCRIPTURE SPOTLIGHT -->
+            <div class="scripture-banner">
+              <div style="font-size: 1.6rem; color: var(--color-gold);">📖</div>
+              <div class="scripture-text">
+                "${escapeHTML(settings.scripture_verse || 'The earnest prayer of a righteous person has great power and produces wonderful results.')}"
+              </div>
+              <div class="scripture-ref">
+                — ${escapeHTML(settings.scripture_ref || 'James 5:16')}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- LIVE INTERCESSION STATS (Answered Testimonies Removed per instructions) -->
+        <div class="container">
+          <div class="stats-strip">
+            <div class="stat-item">
+              <div class="stat-number">${stats.totalRequests || 0}</div>
+              <div class="stat-label">Petitions on the Altar</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number" style="color: var(--color-gold);">${stats.totalIntercessions || 0}</div>
+              <div class="stat-label">Community Prayers Lifted</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number" style="color: #FBBF24;">${stats.pastorPrayedCount || 0}</div>
+              <div class="stat-label">Pastoral Intercessions by PDaniel</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RECENT PRAYER REQUESTS PREVIEW -->
+        <section class="container" style="padding-block: var(--space-3xl);">
+          <div class="section-header">
+            <div>
+              <span class="hero-subtitle-pill" style="font-size: 0.75rem; margin-bottom: 0.5rem;">The Altar</span>
+              <h2 class="section-title">Recent Prayer Petitions</h2>
+              <p class="section-subtitle">Join your faith with someone right now. Click "I Prayed" to stand in agreement.</p>
+            </div>
+            <a href="#/prayers" class="btn btn-outline">View Prayer Wall &rarr;</a>
+          </div>
+
+          <div class="prayers-grid" id="home-prayers-grid">
+            ${recentPrayers.map(p => PrayerCard.render(p)).join('')}
+          </div>
+        </section>
+
+        <!-- HOW IT WORKS -->
+        <section style="background-color: var(--color-surface); border-block: 1px solid var(--color-border); padding-block: var(--space-3xl);">
+          <div class="container">
+            <div class="text-center" style="max-width: 650px; margin: 0 auto var(--space-2xl);">
+              <span class="hero-subtitle-pill" style="font-size: 0.75rem;">Biblical Order</span>
+              <h2 class="section-title" style="margin-top: 0.5rem;">How Flaming Prayer Wall Works</h2>
+              <p class="section-subtitle">A reverent, consecrated altar where prayer is taken seriously and pastoral care is personal.</p>
+            </div>
+
+            <div class="how-it-works-grid">
+              <div class="step-card">
+                <div class="step-number">1</div>
+                <h3 class="step-title">Lay Your Petition on the Altar</h3>
+                <p>Submit your prayer with clarity. You can share publicly on the Flaming Wall, or mark it confidential strictly for PDaniel Olawande's pastoral intercession.</p>
+              </div>
+
+              <div class="step-card">
+                <div class="step-number">2</div>
+                <h3 class="step-title">Intercessors Stand in Agreement</h3>
+                <p>Believers read your petition and press "I Prayed". You will see an encouraging tally of intercessors holding your hands up before God.</p>
+              </div>
+
+              <div class="step-card">
+                <div class="step-number">3</div>
+                <h3 class="step-title">Pastoral Intercession by PDaniel</h3>
+                <p>PDaniel Olawande personally reviews the altar requests, intercedes in the Holy Ghost, and speaks prophetic and pastoral prayers directly over your request.</p>
+              </div>
+
+              <div class="step-card">
+                <div class="step-number">4</div>
+                <h3 class="step-title">Experience the Peace of God</h3>
+                <p>Receive notifications whenever people pray for you or PDaniel responds. Be strengthened knowing heaven has heard your cry.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- PASTOR PDANIEL OLAWANDE SPOTLIGHT (Using exact image from images folder) -->
+        <section class="container">
+          <div class="pastor-spotlight-card">
+            <img 
+              src="/images/pdaniel.jpg" 
+              alt="PDaniel Olawande" 
+              class="pastor-avatar"
+            />
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; flex-wrap: wrap;">
+                <span class="pastor-badge">✓ Verified Shepherd</span>
+                <span style="font-family: var(--font-serif); font-weight: 800; color: #FFFFFF; font-size: 1.25rem;">
+                  PDaniel Olawande
+                </span>
+                <span style="font-size: 0.85rem; color: var(--color-gold);">
+                  — Flaming Network / The Envoys / YMR
+                </span>
+              </div>
+              <h3 style="font-family: var(--font-serif); font-size: 1.45rem; color: #FFFFFF; margin-bottom: 0.75rem; line-height: 1.35;">
+                "The altar that must not burn out must be fed with continuous prayer."
+              </h3>
+              <p style="font-size: 0.98rem; line-height: 1.7; color: var(--color-text-muted);">
+                Beloved, whatever circumstance you are walking through today, remember that prayer changes things. We do not panic; we pray. As Aaron and Hur held up Moses’ hands on the mountain, our pastoral altar is committed to standing with you in the fire of the Holy Ghost until the victory is revealed.
+              </p>
+              <div style="margin-top: 1.25rem;">
+                <a href="#/submit" class="btn btn-gold btn-sm">Request Pastoral Prayer</a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- BOTTOM CALL TO ACTION -->
+        <section style="background: radial-gradient(circle at 50% 50%, #152136 0%, #080D18 100%); border-top: 1px solid var(--color-border); color: #FFFFFF; padding-block: var(--space-3xl); margin-top: var(--space-3xl); text-align: center;">
+          <div class="container" style="max-width: 680px;">
+            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🔥</div>
+            <h2 style="color: #FFFFFF; font-size: 2.2rem; margin-bottom: 1rem;">
+              Need Intercession Right Now?
+            </h2>
+            <p style="color: var(--color-text-muted); font-size: 1.1rem; line-height: 1.6; margin-bottom: 2rem;">
+              Do not carry the battle in isolation. Put your petition on the Flaming Prayer Wall today and let the body of Christ stand with you in faith.
+            </p>
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+              <a href="#/submit" class="btn btn-gold btn-lg">Submit Your Petition</a>
+              <a href="#/prayers" class="btn btn-outline btn-lg" style="color: #FFFFFF; border-color: rgba(255,255,255,0.25);">
+                Explore Prayer Wall
+              </a>
+            </div>
+          </div>
+        </section>
+      `;
+
+      // Bind events to rendered prayer cards
+      const grid = document.getElementById('home-prayers-grid');
+      if (grid) {
+        PrayerCard.bindEvents(grid);
+      }
+    } catch (err) {
+      console.error('Home render error:', err);
+    }
+  }
+};

@@ -1,0 +1,182 @@
+/* ==========================================================================
+   FLAMING PRAYER WALL - DESIGN SYSTEM TOKENS
+   Aesthetic: Deep Sacred Night, Anointed Fire & Gold, Regal Typography
+   Convener: PDaniel Olawande • Fire On My Altar
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+:root {
+  /* Sacred Night & Anointed Fire Palette */
+  --color-canvas: #070B12;           /* Deep Sacred Midnight */
+  --color-surface: #0E1524;          /* Rich Altar Slate */
+  --color-surface-hover: #141E33;
+  --color-surface-alt: #121A2C;
+  
+  --color-primary: #F8FAFC;          /* Crisp Luminous White */
+  --color-primary-light: #E2E8F0;
+  --color-primary-dark: #CBD5E1;
+  
+  --color-gold: #F59E0B;             /* Holy Fire Amber / Gold */
+  --color-gold-hover: #D97706;
+  --color-gold-light: rgba(245, 158, 11, 0.12);
+  --color-gold-border: rgba(245, 158, 11, 0.35);
+  --color-flame: #EF4444;            /* Sacred Ember Red */
+  
+  --color-text-main: #F1F5F9;
+  --color-text-muted: #94A3B8;
+  --color-text-light: #64748B;
+  --color-text-inverse: #070B12;
+  
+  --color-border: #1E293B;
+  --color-border-subtle: #152033;
+  --color-border-focus: #F59E0B;
+  
+  --color-success: #10B981;
+  --color-success-bg: rgba(16, 185, 129, 0.12);
+  --color-warning: #F59E0B;
+  --color-warning-bg: rgba(245, 158, 11, 0.12);
+  --color-danger: #EF4444;
+  --color-danger-bg: rgba(239, 68, 68, 0.14);
+  
+  /* PDaniel Pastor Box Tokens */
+  --pastor-bg: #131B2C;
+  --pastor-border: rgba(245, 158, 11, 0.45);
+  --pastor-accent: #FBBF24;
+  --pastor-shadow: 0 4px 28px rgba(245, 158, 11, 0.14);
+
+  /* Professional Regal Typography */
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-serif: 'Cinzel', Georgia, serif;
+
+  /* Spacing Scale */
+  --space-2xs: 0.25rem;
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4.5rem;
+
+  /* Border Radii */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+
+  /* Elevation Shadows */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.6), 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.7), 0 2px 8px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.8), 0 4px 14px rgba(0, 0, 0, 0.6);
+
+  /* Layout Container */
+  --container-max: 1200px;
+  --header-height: 74px;
+
+  /* Transition */
+  --transition-fast: 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-normal: 250ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Base Reset & Core Styles */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--color-canvas);
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-canvas);
+  color: var(--color-text-main);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Focus Management for Accessibility */
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 3px;
+}
+
+/* Headings with Cinzel Typography */
+h1, h2, h3, h4, h5 {
+  font-family: var(--font-serif);
+  color: var(--color-primary);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+}
+
+h1 {
+  font-size: clamp(2.1rem, 4.5vw + 0.5rem, 3.5rem);
+}
+
+h2 {
+  font-size: clamp(1.65rem, 2.8vw + 0.3rem, 2.35rem);
+}
+
+h3 {
+  font-size: 1.35rem;
+}
+
+p {
+  color: var(--color-text-muted);
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-gold);
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+button, input, textarea, select {
+  font: inherit;
+  color: inherit;
+}
+
+/* Utility Containers */
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--space-lg);
+}
+
+.text-center { text-align: center; }
+.text-gold { color: var(--color-gold); }
+.text-serif { font-family: var(--font-serif); }
+
+.visually-hidden {
+  position: absolute;
+  clip-path: inset(50%);
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  white-space: nowrap;
+}
