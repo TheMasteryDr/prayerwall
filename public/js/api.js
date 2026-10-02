@@ -197,6 +197,76 @@ const API = {
     return Array.from(map.values());
   },
 
+  getLocalMembers() {
+    try {
+      const stored = localStorage.getItem('flaming_local_members');
+      if (stored) return JSON.parse(stored);
+    } catch (e) {}
+    return [
+      {
+        id: 1,
+        name: 'PDaniel Olawande',
+        email: 'pastor@flamingprayerwall.org',
+        role: 'pastor',
+        avatar: '/images/pdaniel.jpg',
+        bio: 'Lead Pastor, The Envoys & Convener of YMR / The Flaming Network.',
+        petitions_count: 5,
+        prayers_lifted: 84,
+        created_at: '2026-09-01T08:00:00.000Z'
+      },
+      {
+        id: 2,
+        name: 'Sarah Jenkins',
+        email: 'sarah@example.com',
+        role: 'user',
+        avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
+        bio: 'Mother of two, believer standing on the promises of God.',
+        petitions_count: 4,
+        prayers_lifted: 32,
+        created_at: '2026-09-12T14:30:00.000Z'
+      },
+      {
+        id: 3,
+        name: 'David Miller',
+        email: 'david@example.com',
+        role: 'user',
+        avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
+        bio: 'Fellow intercessor, grateful for the body of Christ.',
+        petitions_count: 2,
+        prayers_lifted: 47,
+        created_at: '2026-09-18T10:15:00.000Z'
+      },
+      {
+        id: 4,
+        name: 'Grace Okafor',
+        email: 'grace@example.com',
+        role: 'moderator',
+        avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=80',
+        bio: 'Graduate student and passionate prayer wall moderator.',
+        petitions_count: 3,
+        prayers_lifted: 58,
+        created_at: '2026-09-22T19:00:00.000Z'
+      },
+      {
+        id: 5,
+        name: 'Emmanuel Adeyemi',
+        email: 'emmanuel@example.com',
+        role: 'user',
+        avatar: '',
+        bio: 'Youth minister, walking in the light of His Word.',
+        petitions_count: 1,
+        prayers_lifted: 19,
+        created_at: '2026-09-28T09:40:00.000Z'
+      }
+    ];
+  },
+
+  saveLocalMembers(members) {
+    try {
+      localStorage.setItem('flaming_local_members', JSON.stringify(members));
+    } catch (e) {}
+  },
+
   // Client-Side Resilient Fallback Engine
   clientFallback(endpoint, options = {}) {
     const method = (options.method || 'GET').toUpperCase();
@@ -484,6 +554,56 @@ const API = {
       };
     }
 
+    // 12. Admin Members Management
+    if (pathPart === '/admin/members' && method === 'GET') {
+      let members = this.getLocalMembers();
+      const search = (params.get('search') || '').toLowerCase().trim();
+      const role = params.get('role') || 'all';
+
+      if (role !== 'all') {
+        members = members.filter(m => m.role === role);
+      }
+      if (search) {
+        members = members.filter(m => 
+          (m.name && m.name.toLowerCase().includes(search)) ||
+          (m.email && m.email.toLowerCase().includes(search))
+        );
+      }
+      return {
+        members,
+        pagination: { page: 1, limit: 50, total: members.length, totalPages: 1 }
+      };
+    }
+
+    const memberRoleMatch = pathPart.match(/^\/admin\/members\/(\d+)\/role$/);
+    if (memberRoleMatch && method === 'PATCH') {
+      const id = Number(memberRoleMatch[1]);
+      const payload = JSON.parse(options.body || '{}');
+      const members = this.getLocalMembers();
+      const target = members.find(m => m.id === id);
+      if (target) {
+        target.role = payload.role;
+        this.saveLocalMembers(members);
+      }
+      return { message: `Member role updated to ${payload.role}.`, member: target };
+    }
+
+    const memberResetMatch = pathPart.match(/^\/admin\/members\/(\d+)\/reset-password$/);
+    if (memberResetMatch && method === 'POST') {
+      const payload = JSON.parse(options.body || '{}');
+      const pwd = payload.new_password || 'AltarPrayer777!';
+      return { message: 'Password reset successfully.', temporaryPassword: pwd };
+    }
+
+    const memberDeleteMatch = pathPart.match(/^\/admin\/members\/(\d+)$/);
+    if (memberDeleteMatch && method === 'DELETE') {
+      const id = Number(memberDeleteMatch[1]);
+      let members = this.getLocalMembers();
+      members = members.filter(m => m.id !== id);
+      this.saveLocalMembers(members);
+      return { message: 'Member account removed.' };
+    }
+
     // Default safe fallback
     return {};
   },
@@ -640,5 +760,31 @@ const API = {
 
   saveSettings(settings) {
     return this.request('/admin/settings', { method: 'PUT', body: JSON.stringify({ settings }) });
+  },
+
+  // Member & Intercessor Management
+  getAdminMembers(params = {}) {
+    const q = new URLSearchParams(params).toString();
+    return this.request(`/admin/members?${q}`);
+  },
+
+  updateMemberRole(userId, role) {
+    return this.request(`/admin/members/${userId}/role`, {
+      method: 'PATCH',
+      body: JSON.stringify({ role })
+    });
+  },
+
+  resetMemberPassword(userId, newPassword) {
+    return this.request(`/admin/members/${userId}/reset-password`, {
+      method: 'POST',
+      body: JSON.stringify({ new_password: newPassword })
+    });
+  },
+
+  deleteMember(userId) {
+    return this.request(`/admin/members/${userId}`, {
+      method: 'DELETE'
+    });
   }
 };

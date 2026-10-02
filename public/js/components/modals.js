@@ -426,6 +426,129 @@ const Modals = {
     });
 
     this.open('report-modal-overlay');
+  },
+
+  // 5. Pastoral Reset Password Modal
+  openResetPasswordModal(memberId, memberName) {
+    let overlay = document.getElementById('reset-password-modal-overlay');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.id = 'reset-password-modal-overlay';
+      overlay.className = 'modal-overlay';
+      document.body.appendChild(overlay);
+    }
+
+    const defaultTempPassword = 'AltarFire' + Math.floor(1000 + Math.random() * 9000);
+
+    overlay.innerHTML = `
+      <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="reset-modal-title">
+        <div class="modal-header">
+          <h3 class="modal-title" id="reset-modal-title" style="display: flex; align-items: center; gap: 8px;">
+            ${Icons.get('key', { size: 20, color: 'var(--color-gold)' })}
+            <span>Reset Password for ${escapeHTML(memberName)}</span>
+          </h3>
+          <button class="modal-close-btn" aria-label="Close modal">
+            ${Icons.get('close', { size: 18 })}
+          </button>
+        </div>
+
+        <form id="reset-password-form">
+          <div class="modal-body">
+            <p style="font-size: 0.9rem; color: var(--color-text-muted); margin-bottom: 1.25rem;">
+              Set a temporary password for <strong>${escapeHTML(memberName)}</strong> so they can securely access their prayer petitions and intercessions.
+            </p>
+
+            <div class="form-group">
+              <label class="form-label" for="reset-new-password">New Password</label>
+              <div style="display: flex; gap: 0.5rem;">
+                <input 
+                  type="text" 
+                  id="reset-new-password" 
+                  class="form-input" 
+                  value="${defaultTempPassword}" 
+                  minlength="6" 
+                  required 
+                  style="font-family: monospace; font-size: 1.05rem; letter-spacing: 0.05em;"
+                >
+                <button type="button" id="btn-gen-pwd" class="btn btn-outline btn-sm" title="Generate another password">
+                  Generate
+                </button>
+              </div>
+            </div>
+
+            <div id="reset-success-box" style="display: none; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: var(--radius-md); padding: 0.75rem 1rem; margin-top: 1rem;">
+              <div style="color: #34D399; font-weight: 700; font-size: 0.9rem; margin-bottom: 0.25rem;">Password Updated!</div>
+              <p style="font-size: 0.85rem; color: var(--color-text-main); margin-bottom: 0.5rem;">
+                Share this temporary password with the member:
+              </p>
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <code id="reset-display-pwd" style="background: #070B12; padding: 0.35rem 0.65rem; border-radius: 4px; font-weight: 700; color: var(--color-gold); font-size: 1rem;"></code>
+                <button type="button" id="btn-copy-temp-pwd" class="btn btn-gold btn-sm" style="display: inline-flex; align-items: center; gap: 4px;">
+                  ${Icons.get('copy', { size: 14, color: '#070B12' })}
+                  <span>Copy</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer" id="reset-modal-footer">
+            <button type="button" class="btn btn-ghost cancel-btn">Cancel</button>
+            <button type="submit" class="btn btn-gold" id="btn-submit-reset">
+              Save New Password
+            </button>
+          </div>
+        </form>
+      </div>
+    `;
+
+    overlay.querySelector('.modal-close-btn').addEventListener('click', () => this.closeAll());
+    overlay.querySelector('.cancel-btn').addEventListener('click', () => this.closeAll());
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) this.closeAll();
+    });
+
+    const pwdInput = overlay.querySelector('#reset-new-password');
+    const genBtn = overlay.querySelector('#btn-gen-pwd');
+    genBtn.addEventListener('click', () => {
+      pwdInput.value = 'AltarFire' + Math.floor(1000 + Math.random() * 9000);
+    });
+
+    overlay.querySelector('#reset-password-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const newPwd = pwdInput.value.trim();
+      const submitBtn = overlay.querySelector('#btn-submit-reset');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Updating...';
+
+      try {
+        const res = await API.resetMemberPassword(memberId, newPwd);
+        Toast.show(res.message, 'success');
+
+        const successBox = overlay.querySelector('#reset-success-box');
+        const displayCode = overlay.querySelector('#reset-display-pwd');
+        const footer = overlay.querySelector('#reset-modal-footer');
+
+        displayCode.textContent = res.temporaryPassword || newPwd;
+        successBox.style.display = 'block';
+        footer.innerHTML = `
+          <button type="button" class="btn btn-gold cancel-btn" style="margin-left: auto;">Done</button>
+        `;
+        footer.querySelector('.cancel-btn').addEventListener('click', () => this.closeAll());
+
+        const copyBtn = overlay.querySelector('#btn-copy-temp-pwd');
+        copyBtn.addEventListener('click', () => {
+          navigator.clipboard.writeText(displayCode.textContent).then(() => {
+            Toast.show('Password copied to clipboard!', 'info');
+          });
+        });
+      } catch (err) {
+        Toast.show(err.message, 'error');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Save New Password';
+      }
+    });
+
+    this.open('reset-password-modal-overlay');
   }
 };
 

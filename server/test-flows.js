@@ -163,8 +163,77 @@ async function runTests() {
   assert.strictEqual(pageData.pagination.hasNext, true);
   console.log(`   ✓ Server-side pagination verified: Page 1 with ${pageData.prayers.length} items, total: ${pageData.pagination.total}.`);
 
+  // 12. Admin Member & Intercessor Management
+  console.log('12. Testing /api/admin/members (Registered Members & Account Management)...');
+  // Unauthorized check: Member token should be rejected (403)
+  const forbiddenMembers = await fetch(`${baseUrl}/admin/members`, {
+    headers: { 'Authorization': `Bearer ${memberToken}` }
+  });
+  assert.strictEqual(forbiddenMembers.status, 403, 'Regular member must not access admin members queue');
+
+  // Authorized check: Pastor token should succeed
+  const membersRes = await fetch(`${baseUrl}/admin/members`, {
+    headers: { 'Authorization': `Bearer ${pastorToken}` }
+  });
+  assert.strictEqual(membersRes.status, 200);
+  const membersData = await membersRes.json();
+  assert(membersData.members.length >= 4, 'Expected at least 4 seeded members');
+  assert(membersData.members[0].petitions_count !== undefined, 'Member stats must include petitions_count');
+  assert(membersData.members[0].prayers_lifted !== undefined, 'Member stats must include prayers_lifted');
+  console.log(`   ✓ Loaded ${membersData.members.length} registered members with spiritual activity metrics.`);
+
+  // Test Role Update: Promote Sister Sarah (id: 2) to moderator
+  const roleUpdateRes = await fetch(`${baseUrl}/admin/members/2/role`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${pastorToken}`
+    },
+    body: JSON.stringify({ role: 'moderator' })
+  });
+  assert.strictEqual(roleUpdateRes.status, 200);
+  const roleUpdateData = await roleUpdateRes.json();
+  assert.strictEqual(roleUpdateData.member.role, 'moderator');
+  console.log('   ✓ Successfully elevated member role to moderator.');
+
+  // Test Self-Demotion Prevention: Pastor cannot demote himself
+  const selfDemoteRes = await fetch(`${baseUrl}/admin/members/1/role`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${pastorToken}`
+    },
+    body: JSON.stringify({ role: 'user' })
+  });
+  assert.strictEqual(selfDemoteRes.status, 400, 'Pastor must not be allowed to demote self');
+  console.log('   ✓ Self-demotion protection enforced (400 Bad Request).');
+
+  // Restore Sarah's role back to user
+  await fetch(`${baseUrl}/admin/members/2/role`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${pastorToken}`
+    },
+    body: JSON.stringify({ role: 'user' })
+  });
+
+  // Test Password Reset
+  const resetPwdRes = await fetch(`${baseUrl}/admin/members/2/reset-password`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${pastorToken}`
+    },
+    body: JSON.stringify({ new_password: 'TemporaryFaith2026!' })
+  });
+  assert.strictEqual(resetPwdRes.status, 200);
+  const resetPwdData = await resetPwdRes.json();
+  assert.strictEqual(resetPwdData.temporaryPassword, 'TemporaryFaith2026!');
+  console.log('   ✓ Pastoral password reset verified.');
+
   console.log('\n==========================================================');
-  console.log('🌟 ALL 11 TESTS PASSED! BACKEND, DATABASE, SECURITY & WORKFLOWS VERIFIED 100%.');
+  console.log('🌟 ALL 12 TESTS PASSED! BACKEND, DATABASE, SECURITY & WORKFLOWS VERIFIED 100%.');
   console.log('==========================================================\n');
 }
 

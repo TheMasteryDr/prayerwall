@@ -1,4 +1,5 @@
 const express = require('express');
+const bcrypt = require('bcryptjs');
 const { db } = require('../db/database');
 const { requirePastor } = require('../middleware/auth');
 
@@ -293,6 +294,174 @@ router.put('/settings', (req, res) => {
   } catch (err) {
     console.error('Save settings error:', err);
     res.status(500).json({ error: 'Failed to save settings.' });
+  }
+});
+
+// 8. Registered Members & Intercessors Management
+router.get('/members', (req, res) => {
+  try {
+    const search = (req.query.search || '').trim();
+    const role = (req.query.role || 'all').trim();
+    const page = Math.max(1, parseInt(req.query.page, 10) || 1);
+    const limit = Math.min(100, Math.max(1, parseInt(req.query.limit, 10) || 50));
+    const offset = (page - 1) * limit;
+
+    const whereClauses = [];
+    const queryParams = [];
+
+    if (role && role !== 'all') {
+      whereClauses.push('u.role = ?');
+      queryParams.push(role);
+    }
+
+    if (search) {
+      whereClauses.push('(u.name LIKE ? OR u.email LIKE ? OR u.bio LIKE ?)');
+      const wild = `%${search}%`;
+      queryParams.push(wild, wild, wild);
+    }
+
+    const whereSQL = whereClauses.length > 0 ? `WHERE ${whereClauses.join(' AND ')}` : '';
+
+    const countQuery = `SELECT COUNT(*) as total FROM users u ${whereSQL}`;
+    const totalRecords = db.prepare(countQuery).get(...queryParams).total;
+    const totalPages = Math.ceil(totalRecords / limit) || 1;
+
+    const fetchQuery = `
+      SELECT 
+        u.id,
+        u.name,
+        u.email,
+        u.role,
+        u.avatar,
+        u.bio,
+        u.created_at,
+        u.updated_at,
+        (SELECT COUNT(*) FROM prayer_requests WHERE user_id = u.id) as petitions_count,
+        (SELECT COUNT(*) FROM prayer_interactions WHERE user_id = u.id) as prayers_lifted,
+        (SELECT COUNT(*) FROM comments WHERE user_id = u.id) as comments_count
+      FROM users u
+      ${whereSQL}
+      ORDER BY 
+        CASE 
+          WHEN u.role = 'pastor' THEN 1
+          WHEN u.role = 'moderator' THEN 2
+          ELSE 3
+        END ASC,
+        u.created_at DESC
+      LIMIT ? OFFSET ?
+    `;
+
+    const members = db.prepare(fetchQuery).all(...queryParams, limit, offset);
+
+    res.json({
+      members,
+      pagination: {
+        page,
+        limit,
+        total: totalRecords,
+        totalPages
+      }
+    });
+  } catch (err) {
+    console.error('Admin members fetch error:', err);
+    res.status(500).json({ error: 'Failed to retrieve registered members.' });
+  }
+});
+
+// Update Member Role (user, moderator, pastor)
+router.patch('/members/:id/role', (req, res) => {
+  try {
+    const memberId = parseInt(req.params.id, 10);
+    const { role } = req.body;
+
+    const validRoles = ['user', 'moderator', 'pastor'];
+    if (!validRoles.includes(role)) {
+      return res.status(400).json({ error: 'Invalid role. Must be user, moderator, or pastor.' });
+    }
+
+    const member = db.prepare('SELECT id, name, email, role FROM users WHERE id = ?').get(memberId);
+    if (!member) {
+      return res.status(404).json({ error: 'Member not found.' });
+    }
+
+    // Safety: Prevent self-demotion if current pastor
+    if (memberId === req.user.id && role !== 'pastor') {
+      return res.status(400).json({ error: 'You cannot demote your own pastoral administrator account.' });
+    }
+
+    const now = new Date().toISOString();
+    db.prepare('UPDATE users SET role = ?, updated_at = ? WHERE id = ?').run(role, now, memberId);
+
+    res.json({
+      message: `Role for ${member.name} updated to ${role}.`,
+      member: {
+        id: member.id,
+        name: member.name,
+        role
+      }
+    });
+  } catch (err) {
+    console.error('Update member role error:', err);
+    res.status(500).json({ error: 'Failed to update member role.' });
+  }
+});
+
+// Reset Member Password
+router.post('/members/:id/reset-password', async (req, res) => {
+  try {
+    const memberId = parseInt(req.params.id, 10);
+    const { new_password } = req.body;
+
+    const member = db.prepare('SELECT id, name, email FROM users WHERE id = ?').get(memberId);
+    if (!member) {
+      return res.status(404).json({ error: 'Member not found.' });
+    }
+
+    const tempPassword = (new_password && new_password.trim().length >= 6)
+      ? new_password.trim()
+      : 'AltarPrayer' + Math.floor(1000 + Math.random() * 9000);
+
+    const passwordHash = await bcrypt.hash(tempPassword, 10);
+    const now = new Date().toISOString();
+
+    db.prepare('UPDATE users SET password_hash = ?, updated_at = ? WHERE id = ?').run(passwordHash, now, memberId);
+
+    res.json({
+      message: `Password for ${member.name} has been reset.`,
+      temporaryPassword: tempPassword
+    });
+  } catch (err) {
+    console.error('Reset member password error:', err);
+    res.status(500).json({ error: 'Failed to reset password.' });
+  }
+});
+
+// Delete Member Account
+router.delete('/members/:id', (req, res) => {
+  try {
+    const memberId = parseInt(req.params.id, 10);
+
+    const member = db.prepare('SELECT id, name, email, role FROM users WHERE id = ?').get(memberId);
+    if (!member) {
+      return res.status(404).json({ error: 'Member not found.' });
+    }
+
+    if (memberId === req.user.id) {
+      return res.status(400).json({ error: 'You cannot delete your own logged-in pastoral account.' });
+    }
+
+    if (memberId === 1 && member.role === 'pastor') {
+      return res.status(400).json({ error: 'The primary lead pastor account cannot be deleted.' });
+    }
+
+    db.prepare('DELETE FROM users WHERE id = ?').run(memberId);
+
+    res.json({
+      message: `Member account for ${member.name} (${member.email}) was permanently removed.`
+    });
+  } catch (err) {
+    console.error('Delete member error:', err);
+    res.status(500).json({ error: 'Failed to delete member account.' });
   }
 });
 
