@@ -34,7 +34,8 @@ const PrayerWallView = {
             </p>
           </div>
           <a href="#/submit" class="btn btn-gold">
-            <span>🔥</span> Submit a Petition
+            ${Icons.get('flame', { size: 16, color: '#070B12' })}
+            <span>Submit a Petition</span>
           </a>
         </div>
 
@@ -42,10 +43,7 @@ const PrayerWallView = {
         <div class="prayer-toolbar">
           <!-- Search -->
           <div class="search-input-wrapper">
-            <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
+            ${Icons.get('search', { size: 18, className: 'search-icon' })}
             <input 
               type="text" 
               id="wall-search-input" 
@@ -58,7 +56,7 @@ const PrayerWallView = {
           <!-- Category Pills -->
           <div class="category-filter-bar" id="category-filter-bar">
             <button class="cat-pill ${this.state.category === 'all' ? 'active' : ''}" data-category="all">
-              All Petitions
+              ${Icons.get('globe', { size: 13 })} All Petitions
             </button>
             <div class="skeleton" style="width: 120px; height: 32px; border-radius: 99px;"></div>
           </div>
@@ -73,7 +71,7 @@ const PrayerWallView = {
                 Latest
               </button>
               <button class="sort-btn ${this.state.sort === 'pastor_prayed' ? 'active' : ''}" data-sort="pastor_prayed">
-                🔥 PDaniel Prayed
+                ${Icons.get('shieldCheck', { size: 13, color: 'var(--color-gold)' })} PDaniel Prayed
               </button>
               <button class="sort-btn ${this.state.sort === 'most_prayed' ? 'active' : ''}" data-sort="most_prayed">
                 Most Intercessions
@@ -114,11 +112,11 @@ const PrayerWallView = {
 
       bar.innerHTML = `
         <button class="cat-pill ${this.state.category === 'all' ? 'active' : ''}" data-category="all">
-          All Petitions
+          ${Icons.get('globe', { size: 13 })} All Petitions
         </button>
         ${this.state.categories.map(c => `
           <button class="cat-pill ${this.state.category === c.slug ? 'active' : ''}" data-category="${c.slug}">
-            ${escapeHTML(c.name)} ${c.prayer_count > 0 ? `(${c.prayer_count})` : ''}
+            ${Icons.get(c.slug, { size: 13 })} ${escapeHTML(c.name)} ${c.prayer_count > 0 ? `(${c.prayer_count})` : ''}
           </button>
         `).join('')}
       `;
@@ -167,7 +165,7 @@ const PrayerWallView = {
       if (this.state.prayers.length === 0) {
         container.innerHTML = `
           <div class="confirmation-card" style="margin-block: 2rem;">
-            <div class="confirmation-icon-wrap" style="font-size: 1.5rem;">🔥</div>
+            <div class="confirmation-icon-wrap">${Icons.get('flame', { size: 32, color: 'var(--color-gold)' })}</div>
             <h3 style="font-size: 1.35rem; color: #FFFFFF;">No Petitions Found</h3>
             <p style="color: var(--color-text-muted); max-width: 420px;">
               ${this.state.search ? `No prayer petitions matched "${escapeHTML(this.state.search)}".` : 'Be the first to lay a petition on this altar.'}

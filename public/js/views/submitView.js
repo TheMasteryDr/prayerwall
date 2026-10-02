@@ -11,7 +11,10 @@ const SubmitView = {
     main.innerHTML = `
       <div class="container" style="padding-top: var(--space-2xl); max-width: 760px;">
         <div class="text-center" style="margin-bottom: 2rem;">
-          <span class="hero-subtitle-pill" style="font-size: 0.75rem;">🔥 Holy Ghost Altar of Intercession</span>
+          <span class="hero-subtitle-pill" style="font-size: 0.75rem;">
+            ${Icons.get('flame', { size: 13, color: 'var(--color-gold)' })}
+            <span>Holy Ghost Altar of Intercession</span>
+          </span>
           <h1 style="font-size: 2.25rem; margin-top: 0.5rem;">Lay Your Petition on the Altar</h1>
           <p class="section-subtitle">
             "The fire shall ever be burning upon the altar; it shall never go out." — Leviticus 6:13
@@ -92,7 +95,9 @@ const SubmitView = {
                 <label class="privacy-card selected" for="privacy-public">
                   <input type="radio" name="visibility" id="privacy-public" value="public" checked>
                   <div>
-                    <strong style="display: block; font-size: 0.95rem; color: #FFFFFF;">Flaming Public Wall</strong>
+                    <strong style="display: flex; align-items: center; gap: 6px; font-size: 0.95rem; color: #FFFFFF;">
+                      ${Icons.get('globe', { size: 15, color: 'var(--color-gold)' })} Flaming Public Wall
+                    </strong>
                     <span style="font-size: 0.82rem; color: var(--color-text-muted);">
                       Shown on the prayer wall for believers worldwide and PDaniel Olawande to pray.
                     </span>
@@ -102,7 +107,9 @@ const SubmitView = {
                 <label class="privacy-card" for="privacy-private">
                   <input type="radio" name="visibility" id="privacy-private" value="private">
                   <div>
-                    <strong style="display: block; font-size: 0.95rem; color: #F87171;">🔒 Confidential to PDaniel</strong>
+                    <strong style="display: flex; align-items: center; gap: 6px; font-size: 0.95rem; color: #F87171;">
+                      ${Icons.get('lock', { size: 15, color: '#F87171' })} Confidential to PDaniel
+                    </strong>
                     <span style="font-size: 0.82rem; color: var(--color-text-muted);">
                       Kept strictly private. Only you and PDaniel Olawande can view this petition.
                     </span>
@@ -112,7 +119,9 @@ const SubmitView = {
                 <label class="privacy-card" for="privacy-unlisted">
                   <input type="radio" name="visibility" id="privacy-unlisted" value="unlisted">
                   <div>
-                    <strong style="display: block; font-size: 0.95rem; color: #FFFFFF;">Unlisted Link</strong>
+                    <strong style="display: flex; align-items: center; gap: 6px; font-size: 0.95rem; color: #FFFFFF;">
+                      ${Icons.get('link', { size: 15, color: '#94A3B8' })} Unlisted Link
+                    </strong>
                     <span style="font-size: 0.82rem; color: var(--color-text-muted);">
                       Not listed on the public wall; only people you share the direct link with can view.
                     </span>
@@ -127,13 +136,15 @@ const SubmitView = {
             </div>
 
             <!-- Altar Guarantee Note -->
-            <div style="background-color: #0A0F1A; border-left: 3px solid var(--color-gold); padding: 0.85rem 1rem; border-radius: var(--radius-sm); font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 1.5rem;">
-              🛡️ <strong>Altar Consecration:</strong> We treat all petitions with spiritual sanctity and strict confidentiality. Private requests are protected by server-side authorization.
+            <div style="background-color: #0A0F1A; border-left: 3px solid var(--color-gold); padding: 0.85rem 1rem; border-radius: var(--radius-sm); font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 8px;">
+              ${Icons.get('shieldCheck', { size: 16, color: 'var(--color-gold)' })}
+              <div><strong>Altar Consecration:</strong> We treat all petitions with spiritual sanctity and strict confidentiality. Private requests are protected by server-side authorization.</div>
             </div>
 
             <!-- Submit Button -->
-            <button type="submit" class="btn btn-gold btn-lg" id="submit-prayer-btn" style="width: 100%;">
-              <span>🔥</span> Lay Petition Upon the Altar
+            <button type="submit" class="btn btn-gold btn-lg" id="submit-prayer-btn" style="width: 100%; display: inline-flex; align-items: center; justify-content: center; gap: 8px;">
+              ${Icons.get('flame', { size: 18, color: '#070B12' })}
+              <span>Lay Petition Upon the Altar</span>
             </button>
           </form>
         </div>
@@ -195,7 +206,10 @@ const SubmitView = {
         } catch (err) {
           Toast.show(err.message, 'error');
           submitBtn.disabled = false;
-          submitBtn.innerHTML = '<span>🔥</span> Lay Petition Upon the Altar';
+          submitBtn.innerHTML = `
+            ${Icons.get('flame', { size: 18, color: '#070B12' })}
+            <span>Lay Petition Upon the Altar</span>
+          `;
         }
       });
     }
@@ -211,7 +225,7 @@ const SubmitView = {
       <div class="container" style="padding-top: var(--space-2xl); max-width: 680px;">
         <div class="confirmation-card">
           <div class="confirmation-icon-wrap">
-            <span>🔥</span>
+            ${Icons.get('flame', { size: 36, color: 'var(--color-gold)' })}
           </div>
 
           <h2 style="font-family: var(--font-serif); font-size: 2.2rem; color: #FFFFFF;">

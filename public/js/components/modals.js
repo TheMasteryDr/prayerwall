@@ -38,10 +38,7 @@ const Modals = {
         <div class="modal-header">
           <h3 class="modal-title" id="auth-modal-title">Sign In to Flaming Prayer Wall</h3>
           <button class="modal-close-btn" aria-label="Close modal">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <line x1="18" y1="6" x2="6" y2="18"></line>
-              <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
+            ${Icons.get('close', { size: 18 })}
           </button>
         </div>
 
@@ -173,14 +170,14 @@ const Modals = {
       <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="pastor-modal-title">
         <div class="modal-header" style="background: var(--pastor-bg); border-bottom: 1px solid var(--pastor-border);">
           <div style="display: flex; align-items: center; gap: 0.5rem;">
-            <span class="pastor-badge">✓ PDaniel Olawande</span>
+            <span class="pastor-badge" style="display: inline-flex; align-items: center; gap: 5px;">
+              ${Icons.get('shieldCheck', { size: 13, color: 'var(--color-gold)' })}
+              PDaniel Olawande
+            </span>
             <h3 class="modal-title" id="pastor-modal-title" style="font-size: 1.15rem; color: #FFFFFF;">Pastoral Intercession</h3>
           </div>
           <button class="modal-close-btn" aria-label="Close modal">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <line x1="18" y1="6" x2="6" y2="18"></line>
-              <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
+            ${Icons.get('close', { size: 18 })}
           </button>
         </div>
 
@@ -200,7 +197,7 @@ const Modals = {
                 <span>Mark as "Prayed" only (without writing a response message)</span>
               </label>
               <span class="form-hint">
-                Will display: "✓ PDaniel Olawande has stood in prayer over this petition" on the prayer card.
+                Will display: "PDaniel Olawande has stood in prayer over this petition" with verified shepherd badge on the prayer card.
               </span>
             </div>
 
@@ -218,7 +215,10 @@ const Modals = {
 
           <div class="modal-footer">
             <button type="button" class="btn btn-ghost cancel-btn">Cancel</button>
-            <button type="submit" class="btn btn-gold">🔥 Release Pastoral Prayer</button>
+            <button type="submit" class="btn btn-gold" style="display: inline-flex; align-items: center; gap: 6px;">
+              ${Icons.get('flame', { size: 15, color: '#070B12' })}
+              <span>Release Pastoral Prayer</span>
+            </button>
           </div>
         </form>
       </div>
@@ -278,10 +278,7 @@ const Modals = {
         <div class="modal-header">
           <h3 class="modal-title" id="share-modal-title">Share Prayer Petition</h3>
           <button class="modal-close-btn" aria-label="Close modal">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <line x1="18" y1="6" x2="6" y2="18"></line>
-              <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
+            ${Icons.get('close', { size: 18 })}
           </button>
         </div>
 
@@ -296,23 +293,28 @@ const Modals = {
           </div>
 
           <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem;">
-            <a href="https://wa.me/?text=${encodedTitle}%20${encodedUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="justify-content: flex-start;">
-              💬 WhatsApp
+            <a href="https://wa.me/?text=${encodedTitle}%20${encodedUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="justify-content: flex-start; gap: 8px;">
+              ${Icons.get('whatsapp', { size: 16, color: '#22C55E' })}
+              <span>WhatsApp</span>
             </a>
-            <a href="https://t.me/share/url?url=${encodedUrl}&text=${encodedTitle}" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="justify-content: flex-start;">
-              ✈️ Telegram
+            <a href="https://t.me/share/url?url=${encodedUrl}&text=${encodedTitle}" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="justify-content: flex-start; gap: 8px;">
+              ${Icons.get('telegram', { size: 16, color: '#38BDF8' })}
+              <span>Telegram</span>
             </a>
-            <a href="https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="justify-content: flex-start;">
-              📘 Facebook
+            <a href="https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="justify-content: flex-start; gap: 8px;">
+              ${Icons.get('facebook', { size: 16, color: '#60A5FA' })}
+              <span>Facebook</span>
             </a>
-            <a href="https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="justify-content: flex-start;">
-              𝕏 Twitter / X
+            <a href="https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="justify-content: flex-start; gap: 8px;">
+              ${Icons.get('xTwitter', { size: 16, color: '#FFFFFF' })}
+              <span>X / Twitter</span>
             </a>
           </div>
 
           ${navigator.share ? `
-            <button class="btn btn-ghost" id="native-share-btn" style="width: 100%; margin-top: 1rem;">
-              📱 Native Share
+            <button class="btn btn-ghost" id="native-share-btn" style="width: 100%; margin-top: 1rem; display: inline-flex; align-items: center; justify-content: center; gap: 8px;">
+              ${Icons.get('share', { size: 16 })}
+              <span>Device Share</span>
             </button>
           ` : ''}
         </div>
@@ -364,10 +366,7 @@ const Modals = {
         <div class="modal-header">
           <h3 class="modal-title" id="report-modal-title">Report Content for Pastoral Review</h3>
           <button class="modal-close-btn" aria-label="Close modal">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <line x1="18" y1="6" x2="6" y2="18"></line>
-              <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
+            ${Icons.get('close', { size: 18 })}
           </button>
         </div>
 

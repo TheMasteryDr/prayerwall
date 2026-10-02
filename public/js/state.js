@@ -64,13 +64,16 @@ const Toast = {
     const toast = document.createElement('div');
     toast.className = `toast toast-${type}`;
     
-    // Choose icon
-    let icon = '🕊️';
-    if (type === 'success' || message.includes('prayed') || message.includes('faith')) icon = '🙏';
-    if (type === 'error') icon = '⚠️';
+    // Choose vector icon
+    let iconSvg = Icons.get('flame', { size: 18, color: 'var(--color-gold)' });
+    if (type === 'success' || message.includes('prayed') || message.includes('faith')) {
+      iconSvg = Icons.get('pray', { size: 18, color: 'var(--color-gold)' });
+    } else if (type === 'error') {
+      iconSvg = Icons.get('close', { size: 18, color: 'var(--color-danger)' });
+    }
 
     toast.innerHTML = `
-      <span style="font-size: 1.2rem;">${icon}</span>
+      <span style="display: flex; align-items: center; flex-shrink: 0;">${iconSvg}</span>
       <span>${escapeHTML(message)}</span>
     `;
 

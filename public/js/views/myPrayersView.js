@@ -14,7 +14,7 @@ const MyPrayersView = {
       main.innerHTML = `
         <div class="container" style="padding-top: var(--space-3xl); max-width: 600px;">
           <div class="confirmation-card">
-            <div class="confirmation-icon-wrap"><span>👤</span></div>
+            <div class="confirmation-icon-wrap">${Icons.get('user', { size: 32, color: 'var(--color-gold)' })}</div>
             <h2 style="font-family: var(--font-serif); font-size: 1.8rem; color: #FFFFFF;">
               Sign In to View Your Petitions
             </h2>
@@ -22,24 +22,16 @@ const MyPrayersView = {
               Create an account or sign in to track your personal petitions, see PDaniel Olawande's prayers, and receive notifications when brethren pray for you.
             </p>
             <div style="display: flex; gap: 0.75rem; margin-top: 1.25rem; flex-wrap: wrap; justify-content: center;">
-              <button class="btn btn-primary open-auth-modal-btn">Sign In / Register</button>
-              <button class="btn btn-gold quick-member-login-btn">⚡ Instant Member Demo</button>
+              <button class="btn btn-gold open-auth-modal-btn">
+                ${Icons.get('user', { size: 16, color: '#070B12' })}
+                <span>Sign In / Register</span>
+              </button>
             </div>
           </div>
         </div>
       `;
 
       main.querySelector('.open-auth-modal-btn')?.addEventListener('click', () => Modals.openAuthModal());
-      main.querySelector('.quick-member-login-btn')?.addEventListener('click', async () => {
-        try {
-          const res = await API.demoLogin('member');
-          State.setCurrentUser(res.user, res.token);
-          Toast.show('Signed in as Sister Sarah', 'success');
-          MyPrayersView.render();
-        } catch (err) {
-          Toast.show(err.message, 'error');
-        }
-      });
       return;
     }
 
@@ -53,26 +45,33 @@ const MyPrayersView = {
               Welcome, ${escapeHTML(user.name)}. Track your petitions and community intercessions.
             </p>
           </div>
-          <a href="#/submit" class="btn btn-gold btn-sm">
-            <span>🔥</span> New Prayer Petition
+          <a href="#/submit" class="btn btn-gold btn-sm" style="display: inline-flex; align-items: center; gap: 6px;">
+            ${Icons.get('flame', { size: 15, color: '#070B12' })}
+            <span>New Prayer Petition</span>
           </a>
         </div>
 
         <div class="dashboard-layout">
           <!-- Sidebar Navigation -->
           <aside class="dashboard-sidebar">
-            <button class="sidebar-tab-btn ${this.activeTab === 'my-requests' ? 'active' : ''}" data-tab="my-requests">
-              <span>📜 My Petitions</span>
+            <button class="sidebar-tab-btn ${this.activeTab === 'my-requests' ? 'active' : ''}" data-tab="my-requests" style="display: flex; align-items: center; gap: 8px;">
+              ${Icons.get('bible', { size: 16 })}
+              <span>My Petitions</span>
             </button>
-            <button class="sidebar-tab-btn ${this.activeTab === 'standing-with' ? 'active' : ''}" data-tab="standing-with">
-              <span>🤝 Prayers I Stand With</span>
+            <button class="sidebar-tab-btn ${this.activeTab === 'standing-with' ? 'active' : ''}" data-tab="standing-with" style="display: flex; align-items: center; gap: 8px;">
+              ${Icons.get('pray', { size: 16 })}
+              <span>Prayers I Stand With</span>
             </button>
-            <button class="sidebar-tab-btn ${this.activeTab === 'notifications' ? 'active' : ''}" data-tab="notifications">
-              <span>🔔 Notifications</span>
+            <button class="sidebar-tab-btn ${this.activeTab === 'notifications' ? 'active' : ''}" data-tab="notifications" style="display: flex; align-items: center; justify-content: space-between;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                ${Icons.get('bell', { size: 16 })}
+                <span>Notifications</span>
+              </div>
               ${State.unreadNotifications > 0 ? `<span class="sidebar-badge">${State.unreadNotifications}</span>` : ''}
             </button>
-            <button class="sidebar-tab-btn ${this.activeTab === 'profile' ? 'active' : ''}" data-tab="profile">
-              <span>⚙️ Account & Profile</span>
+            <button class="sidebar-tab-btn ${this.activeTab === 'profile' ? 'active' : ''}" data-tab="profile" style="display: flex; align-items: center; gap: 8px;">
+              ${Icons.get('user', { size: 16 })}
+              <span>Account & Profile</span>
             </button>
           </aside>
 
@@ -121,7 +120,9 @@ const MyPrayersView = {
       if (prayers.length === 0) {
         container.innerHTML = `
           <div class="form-card text-center" style="padding: 3rem 1.5rem;">
-            <div class="confirmation-icon-wrap" style="margin: 0 auto 1rem; width: 56px; height: 56px; font-size: 1.5rem;">🔥</div>
+            <div class="confirmation-icon-wrap" style="margin: 0 auto 1rem; width: 56px; height: 56px;">
+              ${Icons.get('flame', { size: 28, color: 'var(--color-gold)' })}
+            </div>
             <h3 style="font-size: 1.3rem; color: #FFFFFF;">No Petitions on the Altar</h3>
             <p style="color: var(--color-text-muted); margin-top: 0.5rem; max-width: 400px; margin-inline: auto;">
               Whatever you are trusting God for, do not carry it alone. Share your petition on the Flaming Prayer Wall.
@@ -140,8 +141,11 @@ const MyPrayersView = {
             <div class="prayer-card" style="padding: 1.5rem;" id="user-req-${p.id}">
               <div class="prayer-card-header">
                 <div class="prayer-meta">
-                  <span class="badge badge-category">${escapeHTML(p.category?.name || 'General')}</span>
-                  ${p.visibility === 'private' ? '<span class="badge badge-private">🔒 Confidential</span>' : '<span class="badge badge-category">Public</span>'}
+                  <span class="badge badge-category" style="display: inline-flex; align-items: center; gap: 4px;">
+                    ${p.category ? Icons.get(p.category.slug, { size: 12 }) : Icons.get('flame', { size: 12 })}
+                    ${escapeHTML(p.category?.name || 'General')}
+                  </span>
+                  ${p.visibility === 'private' ? `<span class="badge badge-private" style="display: inline-flex; align-items: center; gap: 4px;">${Icons.get('lock', { size: 12 })} Confidential</span>` : '<span class="badge badge-category">Public</span>'}
                   <span class="meta-dot">•</span>
                   <span>Submitted ${timeAgo(p.created_at)}</span>
                 </div>
@@ -159,7 +163,10 @@ const MyPrayersView = {
               ${p.has_pastor_prayed ? `
                 <div class="pastor-prayer-box" style="margin-top: 0.5rem; padding: 0.85rem 1rem;">
                   <div style="display: flex; align-items: center; justify-content: space-between;">
-                    <span class="pastor-badge">✓ PDaniel Olawande has prayed for your petition</span>
+                    <span class="pastor-badge" style="display: inline-flex; align-items: center; gap: 5px;">
+                      ${Icons.get('shieldCheck', { size: 13, color: 'var(--color-gold)' })}
+                      PDaniel Olawande has prayed for your petition
+                    </span>
                     <span class="pastor-time">${timeAgo(p.pastor_response?.created_at)}</span>
                   </div>
                   ${p.pastor_response?.response_text ? `
@@ -169,14 +176,15 @@ const MyPrayersView = {
                   ` : ''}
                 </div>
               ` : `
-                <div style="font-size: 0.82rem; color: var(--color-text-muted); background: #0A0F1A; padding: 0.5rem 0.75rem; border-radius: var(--radius-sm); border: 1px dashed var(--color-border);">
-                  ⏳ In PDaniel Olawande's prayer queue. You will be notified when he intercedes.
+                <div style="font-size: 0.82rem; color: var(--color-text-muted); background: #0A0F1A; padding: 0.5rem 0.75rem; border-radius: var(--radius-sm); border: 1px dashed var(--color-border); display: flex; align-items: center; gap: 6px;">
+                  ${Icons.get('clock', { size: 14, color: 'var(--color-gold)' })}
+                  <span>In PDaniel Olawande's prayer queue. You will be notified when he intercedes.</span>
                 </div>
               `}
 
               <div class="prayer-card-footer" style="padding-top: 0.75rem;">
                 <div class="prayer-count-stat">
-                  <span>🙏</span>
+                  ${Icons.get('pray', { size: 15, color: 'var(--color-gold)' })}
                   <span><strong>${p.prayer_count}</strong> people prayed for this</span>
                 </div>
                 <div style="display: flex; gap: 0.5rem;">
@@ -202,7 +210,9 @@ const MyPrayersView = {
       if (intercessions.length === 0) {
         container.innerHTML = `
           <div class="form-card text-center" style="padding: 3rem 1.5rem;">
-            <div class="confirmation-icon-wrap" style="margin: 0 auto 1rem; width: 56px; height: 56px; font-size: 1.5rem;">🤝</div>
+            <div class="confirmation-icon-wrap" style="margin: 0 auto 1rem; width: 56px; height: 56px;">
+              ${Icons.get('pray', { size: 28, color: 'var(--color-gold)' })}
+            </div>
             <h3 style="font-size: 1.3rem; color: #FFFFFF;">No Intercessions Lifted Yet</h3>
             <p style="color: var(--color-text-muted); margin-top: 0.5rem; max-width: 400px; margin-inline: auto;">
               When you click "I Prayed" on the Flaming Wall, those petitions are kept in your prayer journal so you can continue holding them up before God.
@@ -237,7 +247,7 @@ const MyPrayersView = {
 
               <div class="prayer-card-footer" style="padding-top: 0.75rem;">
                 <div class="prayer-count-stat">
-                  <span>🙏</span>
+                  ${Icons.get('pray', { size: 15, color: 'var(--color-gold)' })}
                   <span><strong>${p.prayer_count}</strong> people standing in agreement</span>
                 </div>
                 <a href="#/prayers/${p.id}" class="btn btn-sm btn-outline">Keep Praying</a>
@@ -267,7 +277,9 @@ const MyPrayersView = {
       if (notifs.length === 0) {
         container.innerHTML = `
           <div class="form-card text-center" style="padding: 3rem 1.5rem;">
-            <div class="confirmation-icon-wrap" style="margin: 0 auto 1rem; width: 56px; height: 56px; font-size: 1.5rem;">🔔</div>
+            <div class="confirmation-icon-wrap" style="margin: 0 auto 1rem; width: 56px; height: 56px;">
+              ${Icons.get('bell', { size: 28, color: 'var(--color-gold)' })}
+            </div>
             <h3 style="font-size: 1.3rem; color: #FFFFFF;">No Notifications</h3>
             <p style="color: var(--color-text-muted); margin-top: 0.5rem;">
               You will receive alerts here whenever someone stands in prayer for you or PDaniel responds.
@@ -285,7 +297,7 @@ const MyPrayersView = {
               <div class="comment-card" style="${isPastorNotif ? 'border-left: 4px solid var(--color-gold); background: #141C2E;' : ''}">
                 <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 0.5rem;">
                   <div style="display: flex; align-items: center; gap: 0.5rem;">
-                    <span style="font-size: 1.25rem;">${isPastorNotif ? '🔥' : '🙏'}</span>
+                    <span>${isPastorNotif ? Icons.get('flame', { size: 18, color: 'var(--color-gold)' }) : Icons.get('pray', { size: 18 })}</span>
                     <span style="font-size: 0.95rem; font-weight: 600; color: #FFFFFF;">
                       ${escapeHTML(n.message)}
                     </span>

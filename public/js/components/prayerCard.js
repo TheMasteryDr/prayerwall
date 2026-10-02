@@ -13,10 +13,11 @@ const PrayerCard = {
         <!-- Header -->
         <div class="prayer-card-header">
           <div class="prayer-meta">
-            <span class="badge badge-category">
+            <span class="badge badge-category" style="display: inline-flex; align-items: center; gap: 5px;">
+              ${prayer.category ? Icons.get(prayer.category.slug, { size: 13 }) : Icons.get('flame', { size: 13 })}
               ${escapeHTML(prayer.category ? prayer.category.name : 'Prayer')}
             </span>
-            ${isPrivate ? '<span class="badge badge-private">🔒 Confidential</span>' : ''}
+            ${isPrivate ? `<span class="badge badge-private" style="display: inline-flex; align-items: center; gap: 4px;">${Icons.get('lock', { size: 12 })} Confidential</span>` : ''}
             <span class="meta-dot">•</span>
             <span class="prayer-author">${escapeHTML(prayer.author_name || 'Anonymous')}</span>
             <span class="meta-dot">•</span>
@@ -40,9 +41,7 @@ const PrayerCard = {
             <div class="pastor-box-header">
               <div class="pastor-tagline">
                 <span class="pastor-badge">
-                  <svg viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-                  </svg>
+                  ${Icons.get('shieldCheck', { size: 13, color: 'var(--color-gold)' })}
                   Verified Shepherd
                 </span>
                 <span>${escapeHTML(pastorResp?.pastor_name || 'PDaniel Olawande')}</span>
@@ -55,8 +54,9 @@ const PrayerCard = {
                 "${escapeHTML(pastorResp.response_text)}"
               </div>
             ` : `
-              <div class="pastor-prayer-prayed-only">
-                <span>✓ PDaniel Olawande has stood in prayer over this petition</span>
+              <div class="pastor-prayer-prayed-only" style="display: flex; align-items: center; gap: 6px;">
+                ${Icons.get('shieldCheck', { size: 14, color: 'var(--color-gold)' })}
+                <span>PDaniel Olawande has stood in prayer over this petition</span>
               </div>
             `}
           </div>
@@ -66,7 +66,7 @@ const PrayerCard = {
         <div class="prayer-card-footer">
           <!-- Prayer Count -->
           <div class="prayer-count-stat" id="count-stat-${prayer.id}">
-            <span>🙏</span>
+            ${Icons.get('pray', { size: 16, color: 'var(--color-gold)' })}
             <span><strong>${prayer.prayer_count}</strong> ${prayer.prayer_count === 1 ? 'person' : 'people'} prayed</span>
           </div>
 
@@ -78,8 +78,8 @@ const PrayerCard = {
               data-prayer-id="${prayer.id}"
               aria-label="Pray for this request"
             >
-              <span class="pray-hands-icon">🙏</span>
-              <span class="pray-btn-text">${prayer.user_has_prayed ? '✓ You Prayed' : 'I Prayed'}</span>
+              <span class="pray-hands-icon">${Icons.get('pray', { size: 15 })}</span>
+              <span class="pray-btn-text">${prayer.user_has_prayed ? 'You Prayed' : 'I Prayed'}</span>
             </button>
 
             <!-- Pastor Quick Respond (Only visible to Pastor/Admin) -->
@@ -90,9 +90,9 @@ const PrayerCard = {
                 data-prayer-title="${escapeHTML(prayer.title)}"
                 data-author="${escapeHTML(prayer.author_name)}"
                 title="Respond as PDaniel"
-                style="border-color: var(--color-gold); color: var(--color-gold);"
+                style="border-color: var(--color-gold); color: var(--color-gold); display: inline-flex; align-items: center; gap: 5px;"
               >
-                🔥 Pastor Action
+                ${Icons.get('flame', { size: 14, color: 'var(--color-gold)' })} Pastor Action
               </button>
             ` : ''}
 
@@ -105,13 +105,7 @@ const PrayerCard = {
               title="Share prayer request"
               aria-label="Share prayer request"
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="18" cy="5" r="3"></circle>
-                <circle cx="6" cy="12" r="3"></circle>
-                <circle cx="18" cy="19" r="3"></circle>
-                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
-                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
-              </svg>
+              ${Icons.get('share', { size: 15 })}
             </button>
 
             <!-- View Request -->
@@ -121,10 +115,7 @@ const PrayerCard = {
               title="View full petition and prayers"
               aria-label="View full petition"
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M5 12h14"></path>
-                <path d="m12 5 7 7-7 7"></path>
-              </svg>
+              ${Icons.get('link', { size: 15 })}
             </a>
           </div>
         </div>
@@ -145,7 +136,7 @@ const PrayerCard = {
         // Optimistic UI toggle
         const isCurrentlyPrayed = btn.classList.contains('prayed');
         btn.classList.toggle('prayed');
-        btnText.textContent = isCurrentlyPrayed ? 'I Prayed' : '✓ You Prayed';
+        btnText.textContent = isCurrentlyPrayed ? 'I Prayed' : 'You Prayed';
 
         const countStat = container.querySelector(`#count-stat-${prayerId}`);
 
@@ -153,14 +144,14 @@ const PrayerCard = {
           const res = await API.pray(prayerId);
           if (countStat) {
             countStat.innerHTML = `
-              <span>🙏</span>
+              ${Icons.get('pray', { size: 16, color: 'var(--color-gold)' })}
               <span><strong>${res.prayer_count}</strong> ${res.prayer_count === 1 ? 'person' : 'people'} prayed</span>
             `;
           }
 
           if (res.action === 'prayed') {
             btn.classList.add('prayed');
-            btnText.textContent = '✓ You Prayed';
+            btnText.textContent = 'You Prayed';
             Toast.show('Thank you for standing in agreement and prayer.', 'success');
           } else {
             btn.classList.remove('prayed');
@@ -170,7 +161,7 @@ const PrayerCard = {
         } catch (err) {
           // Revert optimistic update on failure
           btn.classList.toggle('prayed', isCurrentlyPrayed);
-          btnText.textContent = isCurrentlyPrayed ? '✓ You Prayed' : 'I Prayed';
+          btnText.textContent = isCurrentlyPrayed ? 'You Prayed' : 'I Prayed';
           Toast.show('Could not record prayer: ' + err.message, 'error');
         }
       });

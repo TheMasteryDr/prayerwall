@@ -65,7 +65,8 @@ const HomeView = {
       <section class="hero-section">
         <div class="container hero-content">
           <div class="hero-subtitle-pill">
-            🔥 Fire On My Altar • Continuous Intercession
+            ${Icons.get('flame', { size: 14, color: 'var(--color-gold)' })}
+            <span>Fire On My Altar • Continuous Intercession</span>
           </div>
           <h1 class="hero-title">
             YOU'RE NOT PRAYING ALONE.
@@ -75,16 +76,20 @@ const HomeView = {
           </p>
           <div class="hero-actions">
             <a href="#/submit" class="btn btn-gold btn-lg">
-              <span>🔥</span> Share a Prayer Request
+              ${Icons.get('flame', { size: 18, color: '#070B12' })}
+              <span>Share a Prayer Request</span>
             </a>
             <a href="#/prayers" class="btn btn-outline btn-lg">
-              <span>🙏</span> Pray for Someone
+              ${Icons.get('pray', { size: 18 })}
+              <span>Pray for Someone</span>
             </a>
           </div>
 
           <!-- SCRIPTURE SPOTLIGHT -->
           <div class="scripture-banner">
-            <div style="font-size: 1.6rem; color: var(--color-gold);">📖</div>
+            <div style="color: var(--color-gold); display: flex; align-items: center;">
+              ${Icons.get('bible', { size: 28, color: 'var(--color-gold)' })}
+            </div>
             <div class="scripture-text">
               "${escapeHTML(settings.scripture_verse || 'The fire shall ever be burning upon the altar; it shall never go out.')}"
             </div>
@@ -183,7 +188,10 @@ const HomeView = {
           />
           <div>
             <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; flex-wrap: wrap;">
-              <span class="pastor-badge">✓ Verified Shepherd</span>
+              <span class="pastor-badge">
+                ${Icons.get('shieldCheck', { size: 13, color: 'var(--color-gold)' })}
+                Verified Shepherd
+              </span>
               <span style="font-family: var(--font-serif); font-weight: 800; color: #FFFFFF; font-size: 1.25rem;">
                 PDaniel Olawande
               </span>
@@ -207,7 +215,9 @@ const HomeView = {
       <!-- BOTTOM CALL TO ACTION -->
       <section style="background: radial-gradient(circle at 50% 50%, #152136 0%, #080D18 100%); border-top: 1px solid var(--color-border); color: #FFFFFF; padding-block: var(--space-3xl); margin-top: var(--space-3xl); text-align: center;">
         <div class="container" style="max-width: 680px;">
-          <div style="font-size: 2rem; margin-bottom: 0.5rem;">🔥</div>
+          <div style="margin-bottom: 0.75rem; display: flex; justify-content: center;">
+            ${Icons.get('flame', { size: 36, color: 'var(--color-gold)' })}
+          </div>
           <h2 style="color: #FFFFFF; font-size: 2.2rem; margin-bottom: 1rem;">
             Need Intercession Right Now?
           </h2>

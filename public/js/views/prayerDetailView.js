@@ -33,7 +33,8 @@ const PrayerDetailView = {
             </a>
             <div style="display: flex; gap: 0.5rem;">
               <button class="btn btn-sm btn-outline detail-share-btn">
-                <span>🔗</span> Share
+                ${Icons.get('share', { size: 14 })}
+                <span>Share</span>
               </button>
               <button class="btn btn-sm btn-ghost detail-report-btn" style="color: var(--color-danger);">
                 Report
@@ -46,10 +47,11 @@ const PrayerDetailView = {
             <!-- Header Meta -->
             <div class="prayer-card-header">
               <div class="prayer-meta">
-                <span class="badge badge-category">
+                <span class="badge badge-category" style="display: inline-flex; align-items: center; gap: 5px;">
+                  ${prayer.category ? Icons.get(prayer.category.slug, { size: 13 }) : Icons.get('flame', { size: 13 })}
                   ${escapeHTML(prayer.category?.name || 'General')}
                 </span>
-                ${isPrivate ? '<span class="badge badge-private">🔒 Confidential Pastoral Care</span>' : ''}
+                ${isPrivate ? `<span class="badge badge-private" style="display: inline-flex; align-items: center; gap: 4px;">${Icons.get('lock', { size: 12 })} Confidential Pastoral Care</span>` : ''}
                 <span class="meta-dot">•</span>
                 <span class="prayer-author">${escapeHTML(prayer.author_name || 'Anonymous')}</span>
                 <span class="meta-dot">•</span>
@@ -73,9 +75,7 @@ const PrayerDetailView = {
                 <div class="pastor-box-header">
                   <div class="pastor-tagline">
                     <span class="pastor-badge">
-                      <svg viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-                      </svg>
+                      ${Icons.get('shieldCheck', { size: 13, color: 'var(--color-gold)' })}
                       Verified Shepherd
                     </span>
                     <span style="font-size: 1.05rem; font-weight: 700; color: #FFFFFF;">
@@ -90,15 +90,16 @@ const PrayerDetailView = {
                     "${escapeHTML(pastorResp.response_text)}"
                   </div>
                 ` : `
-                  <div class="pastor-prayer-prayed-only" style="font-size: 1rem;">
-                    <span>✓ PDaniel Olawande has stood in prayer over this petition</span>
+                  <div class="pastor-prayer-prayed-only" style="font-size: 1rem; display: flex; align-items: center; gap: 6px;">
+                    ${Icons.get('shieldCheck', { size: 15, color: 'var(--color-gold)' })}
+                    <span>PDaniel Olawande has stood in prayer over this petition</span>
                   </div>
                 `}
 
                 ${isCurrentPastor ? `
                   <div style="margin-top: 0.75rem;">
-                    <button class="btn btn-sm btn-outline pastor-edit-resp-btn" style="border-color: var(--color-gold); color: var(--color-gold);">
-                      ✏️ Edit Pastoral Prayer
+                    <button class="btn btn-sm btn-outline pastor-edit-resp-btn" style="border-color: var(--color-gold); color: var(--color-gold); display: inline-flex; align-items: center; gap: 4px;">
+                      ${Icons.get('edit', { size: 13 })} Edit Pastoral Prayer
                     </button>
                   </div>
                 ` : ''}
@@ -109,8 +110,8 @@ const PrayerDetailView = {
                   <strong style="color: var(--pastor-accent);">Pastor Action:</strong>
                   <span style="font-size: 0.9rem; color: var(--color-text-muted);"> You have not yet interceded over this petition.</span>
                 </div>
-                <button class="btn btn-sm btn-gold pastor-pray-now-btn">
-                  🔥 Pray & Respond as PDaniel
+                <button class="btn btn-sm btn-gold pastor-pray-now-btn" style="display: inline-flex; align-items: center; gap: 5px;">
+                  ${Icons.get('flame', { size: 14, color: '#070B12' })} Pray & Respond as PDaniel
                 </button>
               </div>
             ` : '')}
@@ -118,7 +119,7 @@ const PrayerDetailView = {
             <!-- Bottom Action Row -->
             <div class="prayer-card-footer" style="padding-top: 1.5rem; margin-top: 1rem;">
               <div class="prayer-count-stat" id="detail-count-stat" style="font-size: 1rem;">
-                <span style="font-size: 1.4rem;">🙏</span>
+                ${Icons.get('pray', { size: 20, color: 'var(--color-gold)' })}
                 <span><strong>${prayer.prayer_count}</strong> ${prayer.prayer_count === 1 ? 'person' : 'people'} have stood in prayer</span>
               </div>
 
@@ -126,8 +127,8 @@ const PrayerDetailView = {
                 class="btn btn-pray btn-lg ${prayer.user_has_prayed ? 'prayed' : ''}" 
                 id="detail-pray-btn"
               >
-                <span class="pray-hands-icon">🙏</span>
-                <span id="detail-pray-text">${prayer.user_has_prayed ? '✓ You Prayed' : 'I Prayed'}</span>
+                <span class="pray-hands-icon">${Icons.get('pray', { size: 18 })}</span>
+                <span id="detail-pray-text">${prayer.user_has_prayed ? 'You Prayed' : 'I Prayed'}</span>
               </button>
             </div>
           </div>
@@ -171,7 +172,10 @@ const PrayerDetailView = {
                 ${(prayer.comments && prayer.comments.length > 0) ? prayer.comments.map(c => `
                   <div class="comment-card">
                     <div class="comment-header">
-                      <span class="comment-author">🕊️ ${escapeHTML(c.author_name)}</span>
+                      <span class="comment-author" style="display: inline-flex; align-items: center; gap: 5px;">
+                        ${Icons.get('salvation', { size: 14, color: 'var(--color-gold)' })}
+                        ${escapeHTML(c.author_name)}
+                      </span>
                       <span style="color: var(--color-text-light); font-size: 0.78rem;">${timeAgo(c.created_at)}</span>
                     </div>
                     <div class="comment-body">
@@ -198,19 +202,19 @@ const PrayerDetailView = {
         prayBtn.addEventListener('click', async () => {
           const isPrayed = prayBtn.classList.contains('prayed');
           prayBtn.classList.toggle('prayed');
-          prayText.textContent = isPrayed ? 'I Prayed' : '✓ You Prayed';
+          prayText.textContent = isPrayed ? 'I Prayed' : 'You Prayed';
 
           try {
             const res = await API.pray(prayer.id);
             if (countStat) {
               countStat.innerHTML = `
-                <span style="font-size: 1.4rem;">🙏</span>
+                ${Icons.get('pray', { size: 20, color: 'var(--color-gold)' })}
                 <span><strong>${res.prayer_count}</strong> ${res.prayer_count === 1 ? 'person' : 'people'} have stood in prayer</span>
               `;
             }
             if (res.action === 'prayed') {
               prayBtn.classList.add('prayed');
-              prayText.textContent = '✓ You Prayed';
+              prayText.textContent = 'You Prayed';
               Toast.show('Thank you for standing in agreement.', 'success');
             } else {
               prayBtn.classList.remove('prayed');
@@ -219,7 +223,7 @@ const PrayerDetailView = {
             }
           } catch (err) {
             prayBtn.classList.toggle('prayed', isPrayed);
-            prayText.textContent = isPrayed ? '✓ You Prayed' : 'I Prayed';
+            prayText.textContent = isPrayed ? 'You Prayed' : 'I Prayed';
             Toast.show(err.message, 'error');
           }
         });

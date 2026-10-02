@@ -14,7 +14,7 @@ const AdminView = {
       main.innerHTML = `
         <div class="container" style="padding-top: var(--space-3xl); max-width: 600px;">
           <div class="confirmation-card">
-            <div class="confirmation-icon-wrap" style="color: var(--color-danger); border-color: rgba(239, 68, 68, 0.4);">🔒</div>
+            <div class="confirmation-icon-wrap" style="color: var(--color-danger); border-color: rgba(239, 68, 68, 0.4);">${Icons.get('lock', { size: 32, color: 'var(--color-danger)' })}</div>
             <h2 style="font-family: var(--font-serif); font-size: 1.8rem; color: #FFFFFF;">
               Pastoral & Altar Access Restricted
             </h2>
@@ -22,8 +22,9 @@ const AdminView = {
               This area is reserved strictly for PDaniel Olawande and ordained pastoral staff to review confidential petitions and shepherd the prayer community.
             </p>
             <div style="margin-top: 1.25rem;">
-              <button class="btn btn-gold open-pastor-auth-modal-btn">
-                🔒 Sign In with Pastoral Account
+              <button class="btn btn-gold open-pastor-auth-modal-btn" style="display: inline-flex; align-items: center; gap: 6px;">
+                ${Icons.get('lock', { size: 14, color: '#070B12' })}
+                <span>Sign In with Pastoral Account</span>
               </button>
             </div>
           </div>
@@ -42,7 +43,10 @@ const AdminView = {
         <div class="section-header" style="margin-bottom: 1.5rem;">
           <div>
             <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
-              <span class="pastor-badge">✓ Verified Shepherd</span>
+              <span class="pastor-badge">
+                ${Icons.get('shieldCheck', { size: 13, color: 'var(--color-gold)' })}
+                Verified Shepherd
+              </span>
               <span style="font-size: 0.85rem; font-weight: 700; color: var(--color-gold);">PDaniel Pastoral Altar</span>
             </div>
             <h1 style="font-size: 2.2rem;">Pastoral Care & Altar Oversight</h1>
@@ -64,23 +68,34 @@ const AdminView = {
         <div class="dashboard-layout">
           <!-- Navigation Sidebar -->
           <aside class="dashboard-sidebar">
-            <button class="sidebar-tab-btn ${this.activeQueue === 'awaiting' ? 'active' : ''}" data-queue="awaiting">
-              <span>⏳ Awaiting Your Prayer</span>
+            <button class="sidebar-tab-btn ${this.activeQueue === 'awaiting' ? 'active' : ''}" data-queue="awaiting" style="display: flex; align-items: center; justify-content: space-between;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                ${Icons.get('clock', { size: 16 })}
+                <span>Awaiting Your Prayer</span>
+              </div>
               <span class="sidebar-badge" id="badge-awaiting">0</span>
             </button>
-            <button class="sidebar-tab-btn ${this.activeQueue === 'private' ? 'active' : ''}" data-queue="private">
-              <span>🔒 Confidential Petitions</span>
+            <button class="sidebar-tab-btn ${this.activeQueue === 'private' ? 'active' : ''}" data-queue="private" style="display: flex; align-items: center; justify-content: space-between;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                ${Icons.get('lock', { size: 16 })}
+                <span>Confidential Petitions</span>
+              </div>
               <span class="sidebar-badge" id="badge-private">0</span>
             </button>
-            <button class="sidebar-tab-btn ${this.activeQueue === 'prayed' ? 'active' : ''}" data-queue="prayed">
-              <span>✓ Completed Intercessions</span>
+            <button class="sidebar-tab-btn ${this.activeQueue === 'prayed' ? 'active' : ''}" data-queue="prayed" style="display: flex; align-items: center; gap: 8px;">
+              ${Icons.get('check', { size: 16 })}
+              <span>Completed Intercessions</span>
             </button>
-            <button class="sidebar-tab-btn ${this.activeQueue === 'reports' ? 'active' : ''}" data-queue="reports">
-              <span>🛡️ Moderation & Reports</span>
+            <button class="sidebar-tab-btn ${this.activeQueue === 'reports' ? 'active' : ''}" data-queue="reports" style="display: flex; align-items: center; justify-content: space-between;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                ${Icons.get('shieldCheck', { size: 16 })}
+                <span>Moderation & Reports</span>
+              </div>
               <span class="sidebar-badge" id="badge-reports" style="background: rgba(239, 68, 68, 0.2); color: #F87171;">0</span>
             </button>
-            <button class="sidebar-tab-btn ${this.activeQueue === 'settings' ? 'active' : ''}" data-queue="settings">
-              <span>⚙️ Ministry Settings</span>
+            <button class="sidebar-tab-btn ${this.activeQueue === 'settings' ? 'active' : ''}" data-queue="settings" style="display: flex; align-items: center; gap: 8px;">
+              ${Icons.get('settings', { size: 16 })}
+              <span>Ministry Settings</span>
             </button>
           </aside>
 
@@ -169,7 +184,9 @@ const AdminView = {
       if (prayers.length === 0) {
         container.innerHTML = `
           <div class="form-card text-center" style="padding: 3rem 1.5rem;">
-            <div class="confirmation-icon-wrap" style="margin: 0 auto 1rem; width: 56px; height: 56px; font-size: 1.5rem;">✓</div>
+            <div class="confirmation-icon-wrap" style="margin: 0 auto 1rem; width: 56px; height: 56px;">
+              ${Icons.get('check', { size: 28, color: 'var(--color-gold)' })}
+            </div>
             <h3 style="font-size: 1.3rem; color: #FFFFFF;">Queue Clear</h3>
             <p style="color: var(--color-text-muted); margin-top: 0.5rem;">
               No petitions currently in this queue.
@@ -190,9 +207,12 @@ const AdminView = {
               <div class="admin-prayer-row" id="admin-p-${p.id}">
                 <div class="admin-prayer-header">
                   <div class="prayer-meta">
-                    <span class="badge badge-category">${escapeHTML(p.category?.name || 'General')}</span>
-                    ${p.visibility === 'private' ? '<span class="badge badge-private">🔒 Confidential</span>' : ''}
-                    ${p.has_pastor_prayed ? '<span class="pastor-badge">✓ Prayed</span>' : '<span class="badge" style="background:rgba(245, 158, 11, 0.2); color:#FBBF24;">⏳ Awaiting PDaniel</span>'}
+                    <span class="badge badge-category" style="display: inline-flex; align-items: center; gap: 4px;">
+                      ${p.category ? Icons.get(p.category.slug, { size: 12 }) : Icons.get('flame', { size: 12 })}
+                      ${escapeHTML(p.category?.name || 'General')}
+                    </span>
+                    ${p.visibility === 'private' ? `<span class="badge badge-private" style="display: inline-flex; align-items: center; gap: 4px;">${Icons.get('lock', { size: 12 })} Confidential</span>` : ''}
+                    ${p.has_pastor_prayed ? `<span class="pastor-badge" style="display: inline-flex; align-items: center; gap: 4px;">${Icons.get('shieldCheck', { size: 12, color: 'var(--color-gold)' })} Prayed</span>` : `<span class="badge" style="background:rgba(245, 158, 11, 0.2); color:#FBBF24; display: inline-flex; align-items: center; gap: 4px;">${Icons.get('clock', { size: 12 })} Awaiting PDaniel</span>`}
                     <span class="meta-dot">•</span>
                     <strong style="color: #FFFFFF;">${escapeHTML(p.author_name)}</strong>
                     ${p.author_email ? `<span style="font-size: 0.8rem; color: var(--color-text-light);">(${escapeHTML(p.author_email)})</span>` : ''}
@@ -200,8 +220,8 @@ const AdminView = {
                     <span>${timeAgo(p.created_at)}</span>
                   </div>
 
-                  <span style="font-size: 0.85rem; font-weight: 700; color: var(--color-gold);">
-                    🙏 ${p.prayer_count} prayed
+                  <span style="font-size: 0.85rem; font-weight: 700; color: var(--color-gold); display: inline-flex; align-items: center; gap: 4px;">
+                    ${Icons.get('pray', { size: 14, color: 'var(--color-gold)' })} ${p.prayer_count} prayed
                   </span>
                 </div>
 
@@ -238,16 +258,20 @@ const AdminView = {
                     data-id="${p.id}"
                     data-title="${escapeHTML(p.title)}"
                     data-author="${escapeHTML(p.author_name)}"
+                    style="display: inline-flex; align-items: center; gap: 5px;"
                   >
-                    🔥 ${p.has_pastor_prayed ? 'Update Pastoral Prayer' : 'Pray & Respond'}
+                    ${Icons.get('flame', { size: 14, color: '#070B12' })}
+                    <span>${p.has_pastor_prayed ? 'Update Pastoral Prayer' : 'Pray & Respond'}</span>
                   </button>
 
                   <button 
                     class="btn btn-sm btn-outline admin-pray-quick-btn"
                     data-id="${p.id}"
                     title="Mark as Prayed without typing a message"
+                    style="display: inline-flex; align-items: center; gap: 5px;"
                   >
-                    ✓ Quick "Mark Prayed"
+                    ${Icons.get('check', { size: 14 })}
+                    <span>Quick "Mark Prayed"</span>
                   </button>
 
                   <a href="#/prayers/${p.id}" class="btn btn-sm btn-ghost">
@@ -323,7 +347,9 @@ const AdminView = {
       if (reports.length === 0) {
         container.innerHTML = `
           <div class="form-card text-center" style="padding: 3rem 1.5rem;">
-            <div class="confirmation-icon-wrap" style="margin: 0 auto 1rem; width: 56px; height: 56px; font-size: 1.5rem;">🛡️</div>
+            <div class="confirmation-icon-wrap" style="margin: 0 auto 1rem; width: 56px; height: 56px;">
+              ${Icons.get('shieldCheck', { size: 28, color: 'var(--color-gold)' })}
+            </div>
             <h3 style="font-size: 1.3rem; color: #FFFFFF;">No Moderation Reports</h3>
             <p style="color: var(--color-text-muted); margin-top: 0.5rem;">
               The prayer wall is clean. All reports have been resolved.

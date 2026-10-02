@@ -1,5 +1,6 @@
 /**
- * Navigation Bar Component
+ * Navigation Bar Component - Flaming Prayer Wall
+ * Responsive, regal, and responsive navigation header with SVG icons
  */
 const Navbar = {
   render() {
@@ -8,18 +9,14 @@ const Navbar = {
 
     const user = State.currentUser;
     const isPastor = State.isPastor();
-
     const currentHash = window.location.hash || '#/';
 
     header.innerHTML = `
       <div class="container header-inner">
-        <!-- Logo -->
+        <!-- Brand Logo -->
         <a href="#/" class="brand-link">
           <div class="brand-icon">
-            <!-- Flaming Holy Fire Icon -->
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2c1.1 2.2 2.5 4.3 2.5 6.5 0 2.2-1.8 4-4 4s-4-1.8-4-4c0-2.2 1.4-4.3 2.5-6.5C7.2 4.1 4 8.5 4 13c0 4.4 3.6 8 8 8s8-3.6 8-8c0-4.5-3.2-8.9-5-11z"/>
-            </svg>
+            ${Icons.get('flame', { size: 24, color: '#070B12' })}
           </div>
           <div>
             <span style="font-family: var(--font-serif); font-weight: 800; color: #FFFFFF; font-size: 1.25rem; letter-spacing: 0.04em;">
@@ -29,16 +26,17 @@ const Navbar = {
           </div>
         </a>
 
-        <!-- Desktop Navigation Links -->
-        <ul class="nav-links">
+        <!-- Desktop Navigation Links (Nowrap, Responsive Gaps) -->
+        <ul class="nav-links" id="desktop-nav-links">
           <li><a href="#/" class="nav-link ${currentHash === '#/' ? 'active' : ''}">Home</a></li>
           <li><a href="#/prayers" class="nav-link ${currentHash.startsWith('#/prayers') ? 'active' : ''}">Prayer Wall</a></li>
           <li><a href="#/submit" class="nav-link ${currentHash === '#/submit' ? 'active' : ''}">Ask for Prayer</a></li>
           ${user ? `<li><a href="#/my-prayers" class="nav-link ${currentHash === '#/my-prayers' ? 'active' : ''}">My Prayers</a></li>` : ''}
           ${isPastor ? `
             <li>
-              <a href="#/admin" class="nav-link ${currentHash === '#/admin' ? 'active' : ''}" style="color: var(--color-gold); font-weight: 700;">
-                <span class="pastor-badge" style="margin-right: 4px;">✓ PDaniel</span> Admin
+              <a href="#/admin" class="nav-pastor-badge-link ${currentHash === '#/admin' ? 'active' : ''}">
+                ${Icons.get('shieldCheck', { size: 14, color: 'var(--color-gold)' })}
+                <span>PDaniel Portal</span>
               </a>
             </li>
           ` : ''}
@@ -47,43 +45,56 @@ const Navbar = {
         <!-- Action Items / Auth -->
         <div class="header-actions">
           ${user ? `
-            <!-- Notifications Bell -->
-            <button class="btn btn-ghost btn-sm notif-bell-btn" title="Notifications" style="position: relative; padding: 0.5rem;">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-                <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-              </svg>
-              ${State.unreadNotifications > 0 ? `
-                <span class="badge" style="position: absolute; top: -2px; right: -2px; background: var(--color-flame); color: #fff; font-size: 0.65rem; padding: 1px 5px;">
-                  ${State.unreadNotifications}
-                </span>
-              ` : ''}
-            </button>
+            <!-- Authenticated User Account Bar -->
+            <div class="user-account-bar">
+              <!-- Notifications Bell -->
+              <button class="nav-icon-btn notif-bell-btn" title="Altar Notifications" aria-label="Notifications">
+                ${Icons.get('bell', { size: 18 })}
+                ${State.unreadNotifications > 0 ? `
+                  <span class="notif-pulse-badge">${State.unreadNotifications}</span>
+                ` : ''}
+              </button>
 
-            <!-- User Info & Sign Out -->
-            <div style="display: flex; align-items: center; gap: 10px;">
-              <div style="display: flex; flex-direction: column; align-items: flex-end; line-height: 1.2;">
-                <span style="font-size: 0.88rem; font-weight: 700; color: #FFFFFF; max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                  ${escapeHTML(user.name)}
-                </span>
-                ${isPastor ? `<span style="font-size: 0.72rem; color: var(--color-gold); font-weight: 600;">Verified Shepherd</span>` : `<span style="font-size: 0.72rem; color: var(--color-text-muted);">Altar Member</span>`}
+              <!-- Profile Capsule -->
+              <div class="user-profile-pill">
+                <div class="user-avatar-wrap">
+                  ${isPastor 
+                    ? `<img src="/images/pdaniel.jpg" alt="PDaniel Olawande" class="user-avatar-img">`
+                    : `<div class="user-avatar-initials">${escapeHTML((user.name || 'U').charAt(0).toUpperCase())}</div>`
+                  }
+                </div>
+                <div class="user-meta">
+                  <span class="user-name-text">${escapeHTML(user.name)}</span>
+                  <span class="user-role-label ${isPastor ? 'pastor-role' : ''}">
+                    ${isPastor 
+                      ? `${Icons.get('shieldCheck', { size: 11, color: 'var(--color-gold)' })} Verified Shepherd` 
+                      : 'Altar Intercessor'
+                    }
+                  </span>
+                </div>
               </div>
-              <button class="btn btn-outline btn-sm logout-btn" style="padding: 0.35rem 0.75rem; font-size: 0.8rem; border-color: rgba(255,255,255,0.2);">
-                Sign Out
+
+              <!-- Sign Out Button -->
+              <button class="btn-signout logout-btn" title="Sign Out of Altar">
+                ${Icons.get('logout', { size: 15 })}
+                <span class="logout-text">Sign Out</span>
               </button>
             </div>
           ` : `
+            <!-- Guest / Unauthenticated Actions -->
             <button class="btn btn-outline btn-sm open-login-btn">
-              Sign In
+              ${Icons.get('user', { size: 15 })}
+              <span>Sign In</span>
             </button>
             <a href="#/submit" class="btn btn-gold btn-sm">
-              Ask for Prayer
+              ${Icons.get('flame', { size: 15, color: '#070B12' })}
+              <span>Ask for Prayer</span>
             </a>
           `}
 
           <!-- Mobile Toggle -->
-          <button class="mobile-nav-toggle" aria-label="Toggle Navigation Menu">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <button class="mobile-nav-toggle" id="mobile-nav-toggle" aria-label="Toggle Navigation Menu">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <line x1="3" y1="12" x2="21" y2="12"></line>
               <line x1="3" y1="6" x2="21" y2="6"></line>
               <line x1="3" y1="18" x2="21" y2="18"></line>
@@ -93,7 +104,7 @@ const Navbar = {
       </div>
     `;
 
-    // Attach listeners
+    // Attach event listeners
     const logoutBtn = header.querySelector('.logout-btn');
     if (logoutBtn) {
       logoutBtn.addEventListener('click', () => {
@@ -117,22 +128,25 @@ const Navbar = {
       });
     }
 
-    const mobileToggle = header.querySelector('.mobile-nav-toggle');
-    if (mobileToggle) {
-      mobileToggle.addEventListener('click', () => {
-        const nav = header.querySelector('.nav-links');
-        if (nav) {
-          const isVisible = nav.style.display === 'flex';
-          nav.style.display = isVisible ? 'none' : 'flex';
-          nav.style.flexDirection = 'column';
-          nav.style.position = 'absolute';
-          nav.style.top = '74px';
-          nav.style.left = '0';
-          nav.style.right = '0';
-          nav.style.background = '#0E1524';
-          nav.style.padding = '1.5rem';
-          nav.style.borderBottom = '1px solid #1E293B';
-          nav.style.boxShadow = '0 10px 30px rgba(0,0,0,0.5)';
+    const mobileToggle = header.querySelector('#mobile-nav-toggle');
+    const navLinks = header.querySelector('#desktop-nav-links');
+    if (mobileToggle && navLinks) {
+      mobileToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        navLinks.classList.toggle('mobile-open');
+      });
+
+      // Close mobile drawer when clicking a link
+      navLinks.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+          navLinks.classList.remove('mobile-open');
+        });
+      });
+
+      // Close mobile drawer on outside click
+      document.addEventListener('click', (e) => {
+        if (!header.contains(e.target)) {
+          navLinks.classList.remove('mobile-open');
         }
       });
     }
@@ -147,39 +161,25 @@ const Navbar = {
 
     bar.innerHTML = `
       <a href="#/" class="mobile-bar-item ${hash === '#/' ? 'active' : ''}">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-          <polyline points="9 22 9 12 15 12 15 22"></polyline>
-        </svg>
+        ${Icons.get('bible', { size: 20 })}
         <span>Home</span>
       </a>
       <a href="#/prayers" class="mobile-bar-item ${hash.startsWith('#/prayers') ? 'active' : ''}">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="10"></circle>
-          <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
-        </svg>
+        ${Icons.get('globe', { size: 20 })}
         <span>Wall</span>
       </a>
       <a href="#/submit" class="mobile-bar-item ${hash === '#/submit' ? 'active' : ''}" style="color: var(--color-gold);">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="10"></circle>
-          <line x1="12" y1="8" x2="12" y2="16"></line>
-          <line x1="8" y1="12" x2="16" y2="12"></line>
-        </svg>
-        <span>Submit</span>
+        ${Icons.get('flame', { size: 22, color: 'var(--color-gold)' })}
+        <span>Petition</span>
       </a>
       <a href="#/my-prayers" class="mobile-bar-item ${hash === '#/my-prayers' ? 'active' : ''}">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
-        </svg>
+        ${Icons.get('pray', { size: 20 })}
         <span>My Prayers</span>
       </a>
       ${isPastor ? `
         <a href="#/admin" class="mobile-bar-item ${hash === '#/admin' ? 'active' : ''}" style="color: var(--color-gold);">
-          <svg viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-          </svg>
-          <span>PDaniel</span>
+          ${Icons.get('shieldCheck', { size: 20, color: 'var(--color-gold)' })}
+          <span>Portal</span>
         </a>
       ` : ''}
     `;

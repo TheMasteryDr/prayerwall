@@ -7,17 +7,17 @@
  */
 
 const SEED_CATEGORIES = [
-  { id: 1, name: 'Healing & Health', slug: 'health', icon: '❤️', prayer_count: 58 },
-  { id: 2, name: 'Family & Marriage', slug: 'marriage', icon: '👨‍👩‍👧‍👦', prayer_count: 42 },
-  { id: 3, name: 'Financial Breakthrough', slug: 'finance', icon: '🌱', prayer_count: 35 },
-  { id: 4, name: 'Salvation & Prodigals', slug: 'salvation', icon: '🕊️', prayer_count: 49 },
-  { id: 5, name: 'Spiritual Growth & Fire', slug: 'spiritual', icon: '🔥', prayer_count: 67 },
-  { id: 6, name: 'Career & Purpose', slug: 'career', icon: '🎯', prayer_count: 31 },
-  { id: 7, name: 'Academic & Exams', slug: 'academics', icon: '📚', prayer_count: 26 },
-  { id: 8, name: 'Deliverance & Warfare', slug: 'deliverance', icon: '⚔️', prayer_count: 53 },
-  { id: 9, name: 'Peace & Mental Health', slug: 'mental-health', icon: '🌿', prayer_count: 38 },
-  { id: 10, name: 'Fruit of the Womb', slug: 'fertility', icon: '👶', prayer_count: 29 },
-  { id: 11, name: 'Guidance & Direction', slug: 'guidance', icon: '🧭', prayer_count: 22 }
+  { id: 1, name: 'Healing & Health', slug: 'health', icon: 'health', prayer_count: 58 },
+  { id: 2, name: 'Family & Marriage', slug: 'marriage', icon: 'marriage', prayer_count: 42 },
+  { id: 3, name: 'Financial Breakthrough', slug: 'finance', icon: 'finance', prayer_count: 35 },
+  { id: 4, name: 'Salvation & Prodigals', slug: 'salvation', icon: 'salvation', prayer_count: 49 },
+  { id: 5, name: 'Spiritual Growth & Fire', slug: 'spiritual', icon: 'spiritual', prayer_count: 67 },
+  { id: 6, name: 'Career & Purpose', slug: 'career', icon: 'career', prayer_count: 31 },
+  { id: 7, name: 'Academic & Exams', slug: 'academics', icon: 'academics', prayer_count: 26 },
+  { id: 8, name: 'Deliverance & Warfare', slug: 'deliverance', icon: 'deliverance', prayer_count: 53 },
+  { id: 9, name: 'Peace & Mental Health', slug: 'mental-health', icon: 'mental-health', prayer_count: 38 },
+  { id: 10, name: 'Fruit of the Womb', slug: 'fertility', icon: 'fertility', prayer_count: 29 },
+  { id: 11, name: 'Guidance & Direction', slug: 'guidance', icon: 'guidance', prayer_count: 22 }
 ];
 
 const SEED_PRAYERS = [
@@ -30,7 +30,7 @@ const SEED_PRAYERS = [
     category_id: 1,
     category_name: 'Healing & Health',
     category_slug: 'health',
-    category_icon: '❤️',
+    category_icon: 'health',
     prayer_count: 58,
     has_pastor_prayed: 1,
     status: 'active',
@@ -55,7 +55,7 @@ const SEED_PRAYERS = [
     category_id: 2,
     category_name: 'Family & Marriage',
     category_slug: 'marriage',
-    category_icon: '👨‍👩‍👧‍👦',
+    category_icon: 'marriage',
     prayer_count: 42,
     has_pastor_prayed: 1,
     status: 'active',
@@ -78,7 +78,7 @@ const SEED_PRAYERS = [
     category_id: 3,
     category_name: 'Financial Breakthrough',
     category_slug: 'finance',
-    category_icon: '🌱',
+    category_icon: 'finance',
     prayer_count: 35,
     has_pastor_prayed: 0,
     status: 'active',
@@ -96,7 +96,7 @@ const SEED_PRAYERS = [
     category_id: 5,
     category_name: 'Spiritual Growth & Fire',
     category_slug: 'spiritual',
-    category_icon: '🔥',
+    category_icon: 'spiritual',
     prayer_count: 67,
     has_pastor_prayed: 1,
     status: 'active',
@@ -119,7 +119,7 @@ const SEED_PRAYERS = [
     category_id: 7,
     category_name: 'Academic & Exams',
     category_slug: 'academics',
-    category_icon: '📚',
+    category_icon: 'academics',
     prayer_count: 26,
     has_pastor_prayed: 1,
     status: 'active',

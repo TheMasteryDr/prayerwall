@@ -4,15 +4,15 @@
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
-   Navigation Header
+   Navigation Header & Sleek Responsive Navbar
    -------------------------------------------------------------------------- */
 .site-header {
   position: sticky;
   top: 0;
   z-index: 100;
-  background-color: rgba(7, 11, 18, 0.94);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background-color: rgba(7, 11, 18, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--color-border);
   height: var(--header-height);
   display: flex;
@@ -25,6 +25,7 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
+  gap: var(--space-md);
 }
 
 .brand-link {
@@ -35,11 +36,13 @@
   font-weight: 700;
   font-size: 1.25rem;
   letter-spacing: -0.01em;
+  text-decoration: none;
+  flex-shrink: 0;
 }
 
 .brand-icon {
-  width: 40px;
-  height: 40px;
+  width: 38px;
+  height: 38px;
   border-radius: var(--radius-sm);
   background: linear-gradient(135deg, #F59E0B, #D97706);
   color: #070B12;
@@ -51,11 +54,11 @@
 }
 
 .brand-text-sub {
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-family: var(--font-sans);
   color: var(--color-gold);
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   display: block;
 }
@@ -63,17 +66,26 @@
 .nav-links {
   display: flex;
   align-items: center;
-  gap: var(--space-lg);
+  gap: clamp(0.6rem, 1.2vw, 1.25rem);
   list-style: none;
+  margin: 0;
+  padding: 0;
+  flex-shrink: 0;
 }
 
 .nav-link {
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   font-weight: 500;
   color: var(--color-text-muted);
   padding: var(--space-xs) var(--space-2xs);
   position: relative;
   transition: color var(--transition-fast);
+  white-space: nowrap;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-shrink: 0;
 }
 
 .nav-link:hover, .nav-link.active {
@@ -92,10 +104,181 @@
   border-radius: var(--radius-full);
 }
 
+/* Pastor Portal Navigation Badge Link */
+.nav-pastor-badge-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid var(--color-gold-border);
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-full);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--color-gold);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.nav-pastor-badge-link:hover,
+.nav-pastor-badge-link.active {
+  background: var(--color-gold);
+  color: #070B12;
+  border-color: var(--color-gold);
+  box-shadow: 0 0 14px rgba(245, 158, 11, 0.35);
+}
+
 .header-actions {
   display: flex;
   align-items: center;
   gap: var(--space-sm);
+  flex-shrink: 0;
+}
+
+/* Sleek User Account Bar */
+.user-account-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-shrink: 0;
+}
+
+.user-profile-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(14, 21, 36, 0.9);
+  border: 1px solid var(--color-border);
+  padding: 3px 12px 3px 4px;
+  border-radius: var(--radius-full);
+  transition: all var(--transition-fast);
+}
+
+.user-profile-pill:hover {
+  border-color: rgba(245, 158, 11, 0.4);
+}
+
+.user-avatar-wrap {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #141C2E;
+  border: 1.5px solid var(--color-gold);
+  flex-shrink: 0;
+}
+
+.user-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.user-avatar-initials {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-gold);
+}
+
+.user-meta {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+  text-align: left;
+}
+
+.user-name-text {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  max-width: 125px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.user-role-label {
+  font-size: 0.68rem;
+  color: var(--color-text-muted);
+  font-weight: 500;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.user-role-label.pastor-role {
+  color: var(--color-gold);
+  font-weight: 600;
+}
+
+.nav-icon-btn {
+  position: relative;
+  background: #0E1524;
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.nav-icon-btn:hover {
+  color: #FFFFFF;
+  border-color: var(--color-gold);
+  background-color: #141E33;
+}
+
+.notif-pulse-badge {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  background: var(--color-flame);
+  color: #FFFFFF;
+  font-size: 0.62rem;
+  font-weight: 800;
+  min-width: 17px;
+  height: 17px;
+  border-radius: 99px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.6);
+  padding-inline: 3px;
+}
+
+.btn-signout {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0.38rem 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: rgba(14, 21, 36, 0.6);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.btn-signout:hover {
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #F87171;
 }
 
 /* --------------------------------------------------------------------------
