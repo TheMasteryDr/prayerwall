@@ -17,8 +17,8 @@ A sacred, modern, and responsive Christian prayer platform built for fervent int
   - `Pastor Only (Confidential)`: Encrypted and visible solely to Pastor Daniel and the author.
   - `Unlisted / Link Only`: Accessible only via a direct secret URL.
 - **Anonymous Petitions**: Option to withhold the author's real name while receiving prayer.
-- **Fast 1-Click Role Switcher**: Interactive switcher between Guest, Sister Sarah (Member), and PDaniel Olawande (Pastor/Admin).
-- **Pastoral Command Center**: Awaiting-intercession queue, filterable prayers, direct pastoral response release, and platform moderation.
+- **Secure Pastoral & Member Authentication**: Secure JWT-based authentication for believers and pastoral administrators.
+- **Pastoral Command Center**: Awaiting-intercession queue, filterable prayers, direct pastoral response release, member management, and platform moderation.
 
 ---
 

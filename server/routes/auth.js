@@ -91,36 +91,6 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// Demo Login for instantaneous testing as PDaniel Olawande or member
-router.post('/demo-login', async (req, res) => {
-  try {
-    const { role } = req.body; // 'pastor', 'member', 'intercessor'
-    let user;
-
-    if (role === 'pastor') {
-      user = db.prepare("SELECT id, name, email, role, avatar, bio FROM users WHERE role = 'pastor' LIMIT 1").get();
-    } else if (role === 'member') {
-      user = db.prepare("SELECT id, name, email, role, avatar, bio FROM users WHERE email = 'sarah@example.com' OR role = 'user' LIMIT 1").get();
-    } else {
-      user = db.prepare("SELECT id, name, email, role, avatar, bio FROM users WHERE role = 'user' ORDER BY id DESC LIMIT 1").get();
-    }
-
-    if (!user) {
-      return res.status(404).json({ error: 'Demo account not found in database.' });
-    }
-
-    const token = generateToken(user);
-    return res.json({
-      message: `Signed in as ${user.name} (${user.role.toUpperCase()})`,
-      token,
-      user
-    });
-  } catch (err) {
-    console.error('Demo login error:', err);
-    return res.status(500).json({ error: 'Could not switch demo user.' });
-  }
-});
-
 // Get current user profile and unread notifications count
 router.get('/me', requireAuth, (req, res) => {
   const unreadCount = db.prepare(`

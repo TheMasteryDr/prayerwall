@@ -25,7 +25,7 @@ const SEED_PRAYERS = [
     id: 1,
     title: 'Divine peace and healing for my elderly mother in intensive care',
     content: 'My mother was admitted to the hospital three days ago with severe respiratory distress. The doctors are monitoring her closely, but we know the ultimate Physician is the Lord Jesus. Please stand with our family in prayer for her lungs to clear completely, for pain relief, and for the peace that surpasses all understanding to guard her heart and mind.',
-    author_name: 'Sarah Jenkins',
+    author_name: 'Ruth Adebayo',
     is_anonymous: 0,
     category_id: 1,
     category_name: 'Healing & Health',
@@ -38,12 +38,12 @@ const SEED_PRAYERS = [
     created_at: new Date(Date.now() - 5 * 3600 * 1000).toISOString(),
     pastor_response: {
       pastor_name: 'PDaniel Olawande',
-      response_text: 'Sister Sarah, we hold your precious mother up before the throne of grace. Father, You are Jehovah Rapha, the Lord who heals. Breath of Life, enter her lungs right now. Clear every inflammation, strengthen her vital organs, and grant supernatural wisdom to every physician and nurse caring for her. We speak peace and life over her room in Jesus’ name. Amen.',
+      response_text: 'Sister Ruth, we hold your precious mother up before the throne of grace. Father, You are Jehovah Rapha, the Lord who heals. Breath of Life, enter her lungs right now. Clear every inflammation, strengthen her vital organs, and grant supernatural wisdom to every physician and nurse caring for her. We speak peace and life over her room in Jesus’ name. Amen.',
       prayed_only: false,
       created_at: new Date(Date.now() - 4 * 3600 * 1000).toISOString()
     },
     comments: [
-      { id: 101, author_name: 'Brother David', text: 'Standing with you in faith, sister Sarah! God is faithful.', created_at: new Date(Date.now() - 2 * 3600 * 1000).toISOString() }
+      { id: 101, author_name: 'Brother David', text: 'Standing with you in faith, sister Ruth! God is faithful.', created_at: new Date(Date.now() - 2 * 3600 * 1000).toISOString() }
     ]
   },
   {
@@ -216,11 +216,11 @@ const API = {
       },
       {
         id: 2,
-        name: 'Sarah Jenkins',
-        email: 'sarah@example.com',
+        name: 'Ruth Adebayo',
+        email: 'ruth@example.com',
         role: 'user',
         avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
-        bio: 'Mother of two, believer standing on the promises of God.',
+        bio: 'Believer trusting God for healing and victory in her home.',
         petitions_count: 4,
         prayers_lifted: 32,
         created_at: '2026-09-12T14:30:00.000Z'
@@ -442,22 +442,6 @@ const API = {
         return { token, user, message: 'Welcome Pastor Daniel Olawande' };
       }
 
-      if (email === 'sarah@example.com') {
-        if (password !== 'member123') {
-          throw new Error('Invalid email address or password.');
-        }
-        const user = {
-          id: 2,
-          name: 'Sarah Jenkins',
-          email: 'sarah@example.com',
-          role: 'user',
-          bio: 'Intercessor standing in faith.'
-        };
-        const token = 'flaming-token-member';
-        this.setToken(token);
-        return { token, user, message: 'Welcome back, Sarah Jenkins.' };
-      }
-
       if (!password || password.length < 6) {
         throw new Error('Invalid email address or password.');
       }
@@ -508,8 +492,8 @@ const API = {
           role: 'pastor'
         } : {
           id: 2,
-          name: 'Sarah Jenkins',
-          email: 'sarah@example.com',
+          name: 'Ruth Adebayo',
+          email: 'ruth@example.com',
           role: 'user'
         }
       };
@@ -648,10 +632,6 @@ const API = {
 
   login(payload) {
     return this.request('/auth/login', { method: 'POST', body: JSON.stringify(payload) });
-  },
-
-  demoLogin(role) {
-    return this.request('/auth/demo-login', { method: 'POST', body: JSON.stringify({ role }) });
   },
 
   getMe() {

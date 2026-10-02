@@ -60,18 +60,18 @@ async function seedDatabase() {
   );
   const pastorId = pastorRes.lastInsertRowid;
 
-  // 2. Sister Sarah
-  const sarahRes = insertUser.run(
-    'Sarah Jenkins',
-    'sarah@example.com',
+  // 2. Sister Ruth
+  const ruthRes = insertUser.run(
+    'Ruth Adebayo',
+    'ruth@example.com',
     memberHash,
     'user',
     'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
-    'Mother of two, believer trusting God for her family’s breakthrough.',
+    'Believer trusting God for healing and victory in her home.',
     now,
     now
   );
-  const sarahId = sarahRes.lastInsertRowid;
+  const ruthId = ruthRes.lastInsertRowid;
 
   // 3. Brother David
   const davidRes = insertUser.run(
@@ -112,8 +112,8 @@ async function seedDatabase() {
   // Seed Realistic Prayer Requests
   const samplePrayers = [
     {
-      user_id: sarahId,
-      author_name: 'Sarah Jenkins',
+      user_id: ruthId,
+      author_name: 'Ruth Adebayo',
       is_anonymous: 0,
       title: 'Divine peace and healing for my elderly mother in intensive care',
       content: 'My mother was admitted to the hospital three days ago with severe respiratory distress. The doctors are monitoring her closely, but we know the ultimate Physician is the Lord Jesus. Please stand with our family in prayer for her lungs to clear completely, for pain relief, and for the peace that surpasses all understanding to guard her heart and mind.',
@@ -123,7 +123,7 @@ async function seedDatabase() {
       prayer_count: 58,
       hours_ago: 5,
       has_pastor: true,
-      pastor_response: 'Sister Sarah, we hold your precious mother up before the throne of grace. Father, You are Jehovah Rapha, the Lord who heals. Breath of Life, enter her lungs right now. Clear every inflammation, strengthen her vital organs, and grant supernatural wisdom to every physician and nurse caring for her. We speak peace and life over her room in Jesus’ name. Amen.'
+      pastor_response: 'Sister Ruth, we hold your precious mother up before the throne of grace. Father, You are Jehovah Rapha, the Lord who heals. Breath of Life, enter her lungs right now. Clear every inflammation, strengthen her vital organs, and grant supernatural wisdom to every physician and nurse caring for her. We speak peace and life over her room in Jesus’ name. Amen.'
     },
     {
       user_id: null,
@@ -182,8 +182,8 @@ async function seedDatabase() {
       pastor_response: 'Glory be to God! What a mighty testimony of God’s timely faithfulness. To God alone be all the glory, and may this encourage every brother and sister still waiting on their breakthrough!'
     },
     {
-      user_id: sarahId,
-      author_name: 'Sarah Jenkins',
+      user_id: ruthId,
+      author_name: 'Ruth Adebayo',
       is_anonymous: 0,
       title: 'Salvation and deliverance for my younger brother',
       content: 'Please intercede for my brother Michael. He walked away from faith during college and has been caught in destructive habits. We are praying that the Holy Spirit touches his heart, that God brings godly mentors across his path, and that he returns to the loving arms of the Father like the prodigal son.',
@@ -193,7 +193,7 @@ async function seedDatabase() {
       prayer_count: 49,
       hours_ago: 48,
       has_pastor: true,
-      pastor_response: 'We stand in agreement with you, Sister Sarah. No prodigal is beyond the reach of God’s redeeming grace. Father, dispatch convicting mercy to Michael wherever he is today. Break every chain of addiction and draw him back home to You.'
+      pastor_response: 'We stand in agreement with you, Sister Ruth. No prodigal is beyond the reach of God’s redeeming grace. Father, dispatch convicting mercy to Michael wherever he is today. Break every chain of addiction and draw him back home to You.'
     },
     {
       user_id: null,
@@ -342,7 +342,7 @@ async function seedDatabase() {
     // Add sample community encouragements on public requests
     if (p.visibility === 'public') {
       const commTime1 = new Date(Date.now() - (p.hours_ago - 1.5) * 3600 * 1000).toISOString();
-      insertComment.run(prayerId, sarahId, 'Sarah J.', 'Standing with you in faith. God is able!', commTime1);
+      insertComment.run(prayerId, ruthId, 'Ruth A.', 'Standing with you in faith. God is able!', commTime1);
 
       const commTime2 = new Date(Date.now() - (p.hours_ago - 2.5) * 3600 * 1000).toISOString();
       insertComment.run(prayerId, davidId, 'David M.', 'Lifted this up during morning prayer. Stay encouraged!', commTime2);

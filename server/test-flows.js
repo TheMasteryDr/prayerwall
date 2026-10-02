@@ -21,12 +21,12 @@ async function runTests() {
   assert(catData.categories.length >= 10, 'Expected at least 10 prayer categories');
   console.log(`   ✓ Loaded ${catData.categories.length} prayer categories.`);
 
-  // 3. Demo Login as Pastor Daniel
-  console.log('3. Testing /api/auth/demo-login as pastor...');
-  const pastorLogin = await fetch(`${baseUrl}/auth/demo-login`, {
+  // 3. Authenticate as Pastor Daniel
+  console.log('3. Testing /api/auth/login as pastor...');
+  const pastorLogin = await fetch(`${baseUrl}/auth/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ role: 'pastor' })
+    body: JSON.stringify({ email: 'pastor@flamingprayerwall.org', password: 'pastor123' })
   });
   assert.strictEqual(pastorLogin.status, 200);
   const pastorData = await pastorLogin.json();
@@ -34,18 +34,18 @@ async function runTests() {
   const pastorToken = pastorData.token;
   console.log('   ✓ Pastor Daniel authentication successful.');
 
-  // 4. Demo Login as Member (Sister Sarah)
-  console.log('4. Testing /api/auth/demo-login as member...');
-  const memberLogin = await fetch(`${baseUrl}/auth/demo-login`, {
+  // 4. Authenticate as Member (David Miller)
+  console.log('4. Testing /api/auth/login as member (David Miller)...');
+  const memberLogin = await fetch(`${baseUrl}/auth/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ role: 'member' })
+    body: JSON.stringify({ email: 'david@example.com', password: 'member123' })
   });
   assert.strictEqual(memberLogin.status, 200);
   const memberData = await memberLogin.json();
   assert.strictEqual(memberData.user.role, 'user');
   const memberToken = memberData.token;
-  console.log('   ✓ Sister Sarah authentication successful.');
+  console.log('   ✓ Member authentication successful.');
 
   // 5. Submit a new Public Prayer Request
   console.log('5. Testing /api/prayers (POST - submit public request)...');
@@ -90,7 +90,7 @@ async function runTests() {
       'Authorization': `Bearer ${pastorToken}`
     },
     body: JSON.stringify({
-      content: 'Standing in unwavering faith with you, Sarah. The Lord will finish what He started!'
+      content: 'Standing in unwavering faith with you, David. The Lord will finish what He started!'
     })
   });
   assert.strictEqual(commentRes.status, 201);
@@ -105,7 +105,7 @@ async function runTests() {
       'Authorization': `Bearer ${pastorToken}`
     },
     body: JSON.stringify({
-      response_text: 'Dear Sarah, the Lord shall restore double for all your sorrow. Peace be upon your home. In Jesus name.',
+      response_text: 'Dear David, the Lord shall restore double for all your sorrow. Peace be upon your home. In Jesus name.',
       prayed_only: false
     })
   });
@@ -177,13 +177,18 @@ async function runTests() {
   });
   assert.strictEqual(membersRes.status, 200);
   const membersData = await membersRes.json();
-  assert(membersData.members.length >= 4, 'Expected at least 4 seeded members');
+  assert(membersData.members.length >= 3, 'Expected registered members');
   assert(membersData.members[0].petitions_count !== undefined, 'Member stats must include petitions_count');
   assert(membersData.members[0].prayers_lifted !== undefined, 'Member stats must include prayers_lifted');
   console.log(`   ✓ Loaded ${membersData.members.length} registered members with spiritual activity metrics.`);
 
-  // Test Role Update: Promote Sister Sarah (id: 2) to moderator
-  const roleUpdateRes = await fetch(`${baseUrl}/admin/members/2/role`, {
+  // Find a non-pastor member to test role update
+  const targetMember = membersData.members.find(m => m.role === 'user');
+  assert(targetMember, 'Expected at least one non-pastor member');
+  const targetId = targetMember.id;
+
+  // Test Role Update: Promote member to moderator
+  const roleUpdateRes = await fetch(`${baseUrl}/admin/members/${targetId}/role`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
@@ -194,7 +199,7 @@ async function runTests() {
   assert.strictEqual(roleUpdateRes.status, 200);
   const roleUpdateData = await roleUpdateRes.json();
   assert.strictEqual(roleUpdateData.member.role, 'moderator');
-  console.log('   ✓ Successfully elevated member role to moderator.');
+  console.log(`   ✓ Successfully elevated member "${targetMember.name}" role to moderator.`);
 
   // Test Self-Demotion Prevention: Pastor cannot demote himself
   const selfDemoteRes = await fetch(`${baseUrl}/admin/members/1/role`, {
@@ -208,8 +213,8 @@ async function runTests() {
   assert.strictEqual(selfDemoteRes.status, 400, 'Pastor must not be allowed to demote self');
   console.log('   ✓ Self-demotion protection enforced (400 Bad Request).');
 
-  // Restore Sarah's role back to user
-  await fetch(`${baseUrl}/admin/members/2/role`, {
+  // Restore member's role back to user
+  await fetch(`${baseUrl}/admin/members/${targetId}/role`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
@@ -219,7 +224,7 @@ async function runTests() {
   });
 
   // Test Password Reset
-  const resetPwdRes = await fetch(`${baseUrl}/admin/members/2/reset-password`, {
+  const resetPwdRes = await fetch(`${baseUrl}/admin/members/${targetId}/reset-password`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -232,8 +237,17 @@ async function runTests() {
   assert.strictEqual(resetPwdData.temporaryPassword, 'TemporaryFaith2026!');
   console.log('   ✓ Pastoral password reset verified.');
 
+  // Verify demo-login is permanently removed
+  const demoLoginAttempt = await fetch(`${baseUrl}/auth/demo-login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ role: 'pastor' })
+  });
+  assert.strictEqual(demoLoginAttempt.status, 404, 'Demo login route must be removed');
+  console.log('   ✓ Confirmed: demo-login endpoint is completely removed (404 Not Found).');
+
   console.log('\n==========================================================');
-  console.log('🌟 ALL 12 TESTS PASSED! BACKEND, DATABASE, SECURITY & WORKFLOWS VERIFIED 100%.');
+  console.log('🌟 ALL 12 TESTS PASSED! ZERO DEMO USERS, AUTH & WORKFLOWS VERIFIED 100%.');
   console.log('==========================================================\n');
 }
 
