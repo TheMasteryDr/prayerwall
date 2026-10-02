@@ -8,47 +8,52 @@
 
 :root {
   /* Sacred Night & Anointed Fire Palette */
-  --color-canvas: #070B12;           /* Deep Sacred Midnight */
-  --color-surface: #0E1524;          /* Rich Altar Slate */
+  --color-canvas: #070B12;
+  /* Deep Sacred Midnight */
+  --color-surface: #0E1524;
+  /* Rich Altar Slate */
   --color-surface-hover: #141E33;
   --color-surface-alt: #121A2C;
-  
-  --color-primary: #F8FAFC;          /* Crisp Luminous White */
+
+  --color-primary: #F8FAFC;
+  /* Crisp Luminous White */
   --color-primary-light: #E2E8F0;
   --color-primary-dark: #CBD5E1;
-  
-  --color-gold: #F59E0B;             /* Holy Fire Amber / Gold */
+
+  --color-gold: #F59E0B;
+  /* Holy Fire Amber / Gold */
   --color-gold-hover: #D97706;
   --color-gold-light: rgba(245, 158, 11, 0.12);
   --color-gold-border: rgba(245, 158, 11, 0.35);
-  --color-flame: #EF4444;            /* Sacred Ember Red */
-  
+  --color-flame: #EF4444;
+  /* Sacred Ember Red */
+
   --color-text-main: #F1F5F9;
   --color-text-muted: #94A3B8;
   --color-text-light: #64748B;
   --color-text-inverse: #070B12;
-  
+
   --color-border: #1E293B;
   --color-border-subtle: #152033;
   --color-border-focus: #F59E0B;
-  
+
   --color-success: #10B981;
   --color-success-bg: rgba(16, 185, 129, 0.12);
   --color-warning: #F59E0B;
   --color-warning-bg: rgba(245, 158, 11, 0.12);
   --color-danger: #EF4444;
   --color-danger-bg: rgba(239, 68, 68, 0.14);
-  
+
   /* PDaniel Pastor Box Tokens */
   --pastor-bg: #131B2C;
   --pastor-border: rgba(245, 158, 11, 0.45);
   --pastor-accent: #FBBF24;
   --pastor-shadow: 0 4px 28px rgba(245, 158, 11, 0.14);
 
-  /* Typography - Headings in Helvetica */
+  /* Typography - Headings & Titles in Montserrat */
   --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-heading: 'Helvetica Neue', Helvetica, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
-  --font-serif: 'Helvetica Neue', Helvetica, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+  --font-heading: 'Montserrat', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+  --font-serif: 'Montserrat', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
 
   /* Spacing Scale */
   --space-2xs: 0.25rem;
@@ -83,7 +88,9 @@
 }
 
 /* Base Reset & Core Styles */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -119,8 +126,13 @@ body {
   outline-offset: 3px;
 }
 
-/* All Headings in Helvetica Typography */
-h1, h2, h3, h4, h5, h6 {
+/* All Headings & Titles in Montserrat Typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-heading);
   color: var(--color-primary);
   font-weight: 700;
@@ -154,12 +166,16 @@ a:hover {
   color: var(--color-gold);
 }
 
-img, svg {
+img,
+svg {
   display: block;
   max-width: 100%;
 }
 
-button, input, textarea, select {
+button,
+input,
+textarea,
+select {
   font: inherit;
   color: inherit;
 }
@@ -172,10 +188,21 @@ button, input, textarea, select {
   padding-inline: var(--space-lg);
 }
 
-.text-center { text-align: center; }
-.text-gold { color: var(--color-gold); }
-.text-serif { font-family: var(--font-heading); }
-.text-heading { font-family: var(--font-heading); }
+.text-center {
+  text-align: center;
+}
+
+.text-gold {
+  color: var(--color-gold);
+}
+
+.text-serif {
+  font-family: var(--font-heading);
+}
+
+.text-heading {
+  font-family: var(--font-heading);
+}
 
 .visually-hidden {
   position: absolute;
