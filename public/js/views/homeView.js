@@ -192,14 +192,14 @@ const HomeView = {
                 ${Icons.get('shieldCheck', { size: 13, color: 'var(--color-gold)' })}
                 Verified Shepherd
               </span>
-              <span style="font-family: var(--font-serif); font-weight: 800; color: #FFFFFF; font-size: 1.25rem;">
+              <span style="font-family: var(--font-heading); font-weight: 800; color: #FFFFFF; font-size: 1.25rem; letter-spacing: -0.01em;">
                 PDaniel Olawande
               </span>
               <span style="font-size: 0.85rem; color: var(--color-gold);">
                 — Flaming Network / The Envoys / YMR
               </span>
             </div>
-            <h3 style="font-family: var(--font-serif); font-size: 1.45rem; color: #FFFFFF; margin-bottom: 0.75rem; line-height: 1.35;">
+            <h3 style="font-family: var(--font-heading); font-size: 1.45rem; font-weight: 700; color: #FFFFFF; margin-bottom: 0.75rem; line-height: 1.35; letter-spacing: -0.01em;">
               "The altar that must not burn out must be fed with continuous prayer."
             </h3>
             <p style="font-size: 0.98rem; line-height: 1.7; color: var(--color-text-muted);">

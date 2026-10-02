@@ -228,7 +228,7 @@ const SubmitView = {
             ${Icons.get('flame', { size: 36, color: 'var(--color-gold)' })}
           </div>
 
-          <h2 style="font-family: var(--font-serif); font-size: 2.2rem; color: #FFFFFF;">
+          <h2 style="font-family: var(--font-heading); font-size: 2.2rem; font-weight: 700; color: #FFFFFF; letter-spacing: -0.015em;">
             Your Petition Has Been Placed on the Altar.
           </h2>
 
@@ -243,7 +243,7 @@ const SubmitView = {
           </p>
 
           <div style="background-color: var(--pastor-bg); border: 1px solid var(--pastor-border); border-radius: var(--radius-md); padding: 1rem; width: 100%; margin-top: 0.5rem;">
-            <p style="font-family: var(--font-serif); font-size: 0.95rem; color: #FFFFFF; letter-spacing: 0.02em;">
+            <p style="font-family: var(--font-heading); font-size: 0.95rem; color: #FFFFFF; letter-spacing: -0.01em;">
               "Again, truly I tell you that if two of you on earth agree about anything they ask for, it will be done for them by my Father in heaven." — Matthew 18:19
             </p>
           </div>

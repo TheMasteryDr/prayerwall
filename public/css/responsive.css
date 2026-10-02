@@ -39,11 +39,12 @@
 }
 
 .hero-title {
+  font-family: var(--font-heading);
   font-size: clamp(2.2rem, 5.5vw, 3.8rem);
   font-weight: 800;
   color: #FFFFFF;
   line-height: 1.15;
-  letter-spacing: 0.01em;
+  letter-spacing: -0.02em;
 }
 
 .hero-description {
@@ -79,11 +80,11 @@
 }
 
 .scripture-text {
-  font-family: var(--font-serif);
+  font-family: var(--font-heading);
   font-size: 1.05rem;
   color: #FFFFFF;
   line-height: 1.6;
-  letter-spacing: 0.02em;
+  letter-spacing: -0.01em;
 }
 
 .scripture-ref {
@@ -116,11 +117,12 @@
 }
 
 .stat-number {
-  font-family: var(--font-serif);
+  font-family: var(--font-heading);
   font-size: 2.2rem;
-  font-weight: 700;
+  font-weight: 800;
   color: #FFFFFF;
   line-height: 1.1;
+  letter-spacing: -0.02em;
 }
 
 .stat-label {
@@ -203,7 +205,8 @@
 
 .step-title {
   font-size: 1.15rem;
-  font-family: var(--font-serif);
+  font-family: var(--font-heading);
+  font-weight: 700;
   color: #FFFFFF;
 }
 

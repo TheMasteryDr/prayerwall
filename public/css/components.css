@@ -509,7 +509,7 @@
 }
 
 .prayer-card-title {
-  font-family: var(--font-serif);
+  font-family: var(--font-heading);
   font-size: 1.25rem;
   font-weight: 700;
   color: var(--color-primary);
@@ -944,8 +944,9 @@
 }
 
 .modal-title {
-  font-family: var(--font-serif);
+  font-family: var(--font-heading);
   font-size: 1.35rem;
+  font-weight: 700;
   color: #FFFFFF;
 }
 

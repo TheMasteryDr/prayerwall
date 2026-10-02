@@ -60,7 +60,7 @@ const PrayerDetailView = {
             </div>
 
             <!-- Title -->
-            <h1 style="font-family: var(--font-serif); font-size: 2rem; color: #FFFFFF; line-height: 1.3;">
+            <h1 style="font-family: var(--font-heading); font-size: 2rem; font-weight: 700; color: #FFFFFF; line-height: 1.3; letter-spacing: -0.015em;">
               ${escapeHTML(prayer.title)}
             </h1>
 
@@ -136,7 +136,7 @@ const PrayerDetailView = {
           <!-- COMMUNITY ENCOURAGEMENTS SECTION (Unless Private) -->
           ${!isPrivate ? `
             <section class="comments-section">
-              <h3 style="font-family: var(--font-serif); font-size: 1.4rem; color: #FFFFFF;">
+              <h3 style="font-family: var(--font-heading); font-size: 1.4rem; font-weight: 700; color: #FFFFFF; letter-spacing: -0.015em;">
                 Words of Encouragement & Faith (${prayer.comments?.length || 0})
               </h3>
 

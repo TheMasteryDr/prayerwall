@@ -15,7 +15,7 @@ const MyPrayersView = {
         <div class="container" style="padding-top: var(--space-3xl); max-width: 600px;">
           <div class="confirmation-card">
             <div class="confirmation-icon-wrap">${Icons.get('user', { size: 32, color: 'var(--color-gold)' })}</div>
-            <h2 style="font-family: var(--font-serif); font-size: 1.8rem; color: #FFFFFF;">
+            <h2 style="font-family: var(--font-heading); font-size: 1.8rem; font-weight: 700; color: #FFFFFF; letter-spacing: -0.015em;">
               Sign In to View Your Petitions
             </h2>
             <p style="color: var(--color-text-muted); line-height: 1.6; max-width: 440px;">

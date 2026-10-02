@@ -19,7 +19,7 @@ const Navbar = {
             ${Icons.get('flame', { size: 24, color: '#070B12' })}
           </div>
           <div>
-            <span style="font-family: var(--font-serif); font-weight: 800; color: #FFFFFF; font-size: 1.25rem; letter-spacing: 0.04em;">
+            <span style="font-family: var(--font-heading); font-weight: 800; color: #FFFFFF; font-size: 1.25rem; letter-spacing: -0.01em;">
               FLAMING PRAYER WALL
             </span>
             <span class="brand-text-sub">Fire On My Altar • PDaniel Ministry</span>

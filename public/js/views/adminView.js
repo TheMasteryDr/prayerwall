@@ -17,7 +17,7 @@ const AdminView = {
         <div class="container" style="padding-top: var(--space-3xl); max-width: 600px;">
           <div class="confirmation-card">
             <div class="confirmation-icon-wrap" style="color: var(--color-danger); border-color: rgba(239, 68, 68, 0.4);">${Icons.get('lock', { size: 32, color: 'var(--color-danger)' })}</div>
-            <h2 style="font-family: var(--font-serif); font-size: 1.8rem; color: #FFFFFF;">
+            <h2 style="font-family: var(--font-heading); font-size: 1.8rem; font-weight: 700; color: #FFFFFF; letter-spacing: -0.01em;">
               Pastoral & Altar Access Restricted
             </h2>
             <p style="color: var(--color-text-muted); line-height: 1.6; max-width: 440px;">
@@ -239,7 +239,7 @@ const AdminView = {
                   </span>
                 </div>
 
-                <h3 style="font-family: var(--font-serif); font-size: 1.18rem; color: #FFFFFF; margin-top: 0.25rem;">
+                <h3 style="font-family: var(--font-heading); font-size: 1.18rem; font-weight: 700; color: #FFFFFF; margin-top: 0.25rem; letter-spacing: -0.01em;">
                   <a href="#/prayers/${p.id}">${escapeHTML(p.title)}</a>
                 </h3>
 
