@@ -237,6 +237,16 @@ async function runTests() {
   assert.strictEqual(resetPwdData.temporaryPassword, 'TemporaryFaith2026!');
   console.log('   ✓ Pastoral password reset verified.');
 
+  // Restore password back to member123 for idempotent test runs
+  await fetch(`${baseUrl}/admin/members/${targetId}/reset-password`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${pastorToken}`
+    },
+    body: JSON.stringify({ new_password: 'member123' })
+  });
+
   // Verify demo-login is permanently removed
   const demoLoginAttempt = await fetch(`${baseUrl}/auth/demo-login`, {
     method: 'POST',

@@ -16,22 +16,44 @@ const Navbar = {
         <!-- Brand Logo -->
         <a href="#/" class="brand-link">
           <div class="brand-icon">
-            ${Icons.get('flame', { size: 24, color: '#070B12' })}
+            ${Icons.get('flame', { size: 22, color: '#070B12' })}
           </div>
-          <div>
-            <span style="font-family: var(--font-heading); font-weight: 800; color: #FFFFFF; font-size: 1.25rem; letter-spacing: -0.01em;">
+          <div class="brand-titles">
+            <span style="font-family: var(--font-heading); font-weight: 800; color: #FFFFFF; font-size: 1.25rem; letter-spacing: -0.01em;" class="brand-title-text">
               FLAMING PRAYER WALL
             </span>
             <span class="brand-text-sub">Fire On My Altar • PDaniel Ministry</span>
           </div>
         </a>
 
-        <!-- Desktop Navigation Links (Nowrap, Responsive Gaps) -->
+        <!-- Desktop Navigation Links / Mobile Drawer (Responsive containment) -->
         <ul class="nav-links" id="desktop-nav-links">
-          <li><a href="#/" class="nav-link ${currentHash === '#/' ? 'active' : ''}">Home</a></li>
-          <li><a href="#/prayers" class="nav-link ${currentHash.startsWith('#/prayers') ? 'active' : ''}">Prayer Wall</a></li>
-          <li><a href="#/submit" class="nav-link ${currentHash === '#/submit' ? 'active' : ''}">Ask for Prayer</a></li>
-          ${user ? `<li><a href="#/my-prayers" class="nav-link ${currentHash === '#/my-prayers' ? 'active' : ''}">My Prayers</a></li>` : ''}
+          <li>
+            <a href="#/" class="nav-link ${currentHash === '#/' ? 'active' : ''}">
+              ${Icons.get('bible', { size: 16 })}
+              <span>Home</span>
+            </a>
+          </li>
+          <li>
+            <a href="#/prayers" class="nav-link ${currentHash.startsWith('#/prayers') ? 'active' : ''}">
+              ${Icons.get('globe', { size: 16 })}
+              <span>Prayer Wall</span>
+            </a>
+          </li>
+          <li>
+            <a href="#/submit" class="nav-link ${currentHash === '#/submit' ? 'active' : ''}">
+              ${Icons.get('flame', { size: 16, color: 'var(--color-gold)' })}
+              <span>Ask for Prayer</span>
+            </a>
+          </li>
+          ${user ? `
+            <li>
+              <a href="#/my-prayers" class="nav-link ${currentHash === '#/my-prayers' ? 'active' : ''}">
+                ${Icons.get('pray', { size: 16 })}
+                <span>My Prayers</span>
+              </a>
+            </li>
+          ` : ''}
           ${isPastor ? `
             <li>
               <a href="#/admin" class="nav-pastor-badge-link ${currentHash === '#/admin' ? 'active' : ''}">
@@ -40,6 +62,26 @@ const Navbar = {
               </a>
             </li>
           ` : ''}
+
+          <!-- Mobile Drawer Auth Bar -->
+          ${!user ? `
+            <li class="mobile-drawer-auth" style="margin-top: 0.5rem; padding-top: 0.75rem; border-top: 1px solid rgba(255, 255, 255, 0.08);">
+              <button class="btn btn-gold btn-sm open-login-drawer-btn" style="width: 100%; justify-content: center; gap: 8px;">
+                ${Icons.get('user', { size: 15, color: '#070B12' })}
+                <span>Sign In / Register</span>
+              </button>
+            </li>
+          ` : `
+            <li class="mobile-drawer-auth" style="margin-top: 0.5rem; padding-top: 0.75rem; border-top: 1px solid rgba(255, 255, 255, 0.08); display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+              <div style="font-size: 0.85rem; color: var(--color-text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                Signed in as <strong style="color: #FFFFFF;">${escapeHTML(user.name)}</strong>
+              </div>
+              <button class="btn-signout drawer-logout-btn" style="padding: 0.35rem 0.75rem; border-radius: 99px; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #FCA5A5; display: inline-flex; align-items: center; gap: 4px; font-size: 0.8rem;">
+                ${Icons.get('logout', { size: 13 })}
+                <span>Sign Out</span>
+              </button>
+            </li>
+          `}
         </ul>
 
         <!-- Action Items / Auth -->
@@ -86,19 +128,27 @@ const Navbar = {
               ${Icons.get('user', { size: 15 })}
               <span>Sign In</span>
             </button>
-            <a href="#/submit" class="btn btn-gold btn-sm">
+            <a href="#/submit" class="btn btn-gold btn-sm header-cta-btn">
               ${Icons.get('flame', { size: 15, color: '#070B12' })}
               <span>Ask for Prayer</span>
             </a>
           `}
 
-          <!-- Mobile Toggle -->
+          <!-- Mobile Toggle with open & close state -->
           <button class="mobile-nav-toggle" id="mobile-nav-toggle" aria-label="Toggle Navigation Menu">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <line x1="3" y1="12" x2="21" y2="12"></line>
-              <line x1="3" y1="6" x2="21" y2="6"></line>
-              <line x1="3" y1="18" x2="21" y2="18"></line>
-            </svg>
+            <span class="toggle-icon-hamburger">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+              </svg>
+            </span>
+            <span class="toggle-icon-close" style="display: none;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </span>
           </button>
         </div>
       </div>
@@ -131,22 +181,56 @@ const Navbar = {
     const mobileToggle = header.querySelector('#mobile-nav-toggle');
     const navLinks = header.querySelector('#desktop-nav-links');
     if (mobileToggle && navLinks) {
+      const openIcon = mobileToggle.querySelector('.toggle-icon-hamburger');
+      const closeIcon = mobileToggle.querySelector('.toggle-icon-close');
+
+      const setDrawerState = (open) => {
+        if (open) {
+          navLinks.classList.add('mobile-open');
+          if (openIcon) openIcon.style.display = 'none';
+          if (closeIcon) closeIcon.style.display = 'inline-flex';
+        } else {
+          navLinks.classList.remove('mobile-open');
+          if (openIcon) openIcon.style.display = 'inline-flex';
+          if (closeIcon) closeIcon.style.display = 'none';
+        }
+      };
+
       mobileToggle.addEventListener('click', (e) => {
         e.stopPropagation();
-        navLinks.classList.toggle('mobile-open');
+        setDrawerState(!navLinks.classList.contains('mobile-open'));
       });
 
       // Close mobile drawer when clicking a link
       navLinks.querySelectorAll('a').forEach(a => {
         a.addEventListener('click', () => {
-          navLinks.classList.remove('mobile-open');
+          setDrawerState(false);
         });
       });
+
+      // Drawer auth actions
+      const drawerLoginBtn = navLinks.querySelector('.open-login-drawer-btn');
+      if (drawerLoginBtn) {
+        drawerLoginBtn.addEventListener('click', () => {
+          setDrawerState(false);
+          Modals.openAuthModal();
+        });
+      }
+
+      const drawerLogoutBtn = navLinks.querySelector('.drawer-logout-btn');
+      if (drawerLogoutBtn) {
+        drawerLogoutBtn.addEventListener('click', () => {
+          setDrawerState(false);
+          State.logout();
+          Toast.show('You have been signed out.', 'info');
+          window.dispatchEvent(new HashChangeEvent('hashchange'));
+        });
+      }
 
       // Close mobile drawer on outside click
       document.addEventListener('click', (e) => {
         if (!header.contains(e.target)) {
-          navLinks.classList.remove('mobile-open');
+          setDrawerState(false);
         }
       });
     }
