@@ -1,5 +1,5 @@
 /**
- * Home / Landing View - Flaming Prayer Wall
+ * Home / Landing View - Prayer Wall
  */
 const HomeView = {
   async render() {
@@ -146,7 +146,7 @@ const HomeView = {
         <div class="container">
           <div class="text-center" style="max-width: 650px; margin: 0 auto var(--space-2xl);">
             <span class="hero-subtitle-pill" style="font-size: 0.75rem;">Biblical Order</span>
-            <h2 class="section-title" style="margin-top: 0.5rem;">How Flaming Prayer Wall Works</h2>
+            <h2 class="section-title" style="margin-top: 0.5rem;">How Prayer Wall Works</h2>
             <p class="section-subtitle">A reverent, consecrated altar where prayer is taken seriously and pastoral care is personal.</p>
           </div>
 
@@ -154,7 +154,7 @@ const HomeView = {
             <div class="step-card">
               <div class="step-number">1</div>
               <h3 class="step-title">Lay Your Petition on the Altar</h3>
-              <p>Submit your prayer with clarity. You can share publicly on the Flaming Wall, or mark it confidential strictly for PDaniel Olawande's pastoral intercession.</p>
+              <p>Submit your prayer with clarity. You can share publicly on the Prayer Wall, or mark it confidential strictly for PDaniel Olawande's pastoral intercession.</p>
             </div>
 
             <div class="step-card">
@@ -196,7 +196,7 @@ const HomeView = {
                 PDaniel Olawande
               </span>
               <span style="font-size: 0.85rem; color: var(--color-gold);">
-                — Flaming Network / The Envoys / YMR
+                — The Envoys / YMR
               </span>
             </div>
             <h3 style="font-family: var(--font-heading); font-size: 1.45rem; font-weight: 700; color: #FFFFFF; margin-bottom: 0.75rem; line-height: 1.35; letter-spacing: -0.01em;">
@@ -222,7 +222,7 @@ const HomeView = {
             Need Intercession Right Now?
           </h2>
           <p style="color: var(--color-text-muted); font-size: 1.1rem; line-height: 1.6; margin-bottom: 2rem;">
-            Do not carry the battle in isolation. Put your petition on the Flaming Prayer Wall today and let the body of Christ stand with you in faith.
+            Do not carry the battle in isolation. Put your petition on the Prayer Wall today and let the body of Christ stand with you in faith.
           </p>
           <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
             <a href="#/submit" class="btn btn-gold btn-lg">Submit Your Petition</a>

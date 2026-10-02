@@ -1,5 +1,5 @@
 /**
- * Navigation Bar Component - Flaming Prayer Wall
+ * Navigation Bar Component - Prayer Wall
  * Responsive, regal, and responsive navigation header with SVG icons
  */
 const Navbar = {
@@ -20,9 +20,9 @@ const Navbar = {
           </div>
           <div class="brand-titles">
             <span style="font-family: var(--font-heading); font-weight: 800; color: #FFFFFF; font-size: 1.25rem; letter-spacing: -0.01em;" class="brand-title-text">
-              FLAMING PRAYER WALL
+              PRAYER WALL
             </span>
-            <span class="brand-text-sub">Fire On My Altar • PDaniel Ministry</span>
+            <span class="brand-text-sub">Fire On My Altar</span>
           </div>
         </a>
 

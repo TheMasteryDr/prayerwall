@@ -1,5 +1,5 @@
 /**
- * Flaming Prayer Wall - Centralized SVG Icon Library
+ * Prayer Wall - Centralized SVG Icon Library
  * Professional, crisp vector icons replacing emojis across the entire platform
  */
 const Icons = {

@@ -1,5 +1,5 @@
 /**
- * User Dashboard / My Prayers View - Flaming Prayer Wall
+ * User Dashboard / My Prayers View - Prayer Wall
  */
 const MyPrayersView = {
   activeTab: 'my-requests', // 'my-requests', 'standing-with', 'notifications', 'profile'
@@ -125,7 +125,7 @@ const MyPrayersView = {
             </div>
             <h3 style="font-size: 1.3rem; color: #FFFFFF;">No Petitions on the Altar</h3>
             <p style="color: var(--color-text-muted); margin-top: 0.5rem; max-width: 400px; margin-inline: auto;">
-              Whatever you are trusting God for, do not carry it alone. Share your petition on the Flaming Prayer Wall.
+              Whatever you are trusting God for, do not carry it alone. Share your petition on the Prayer Wall.
             </p>
             <a href="#/submit" class="btn btn-gold btn-sm" style="margin-top: 1.25rem;">
               Submit Your Petition
@@ -215,10 +215,10 @@ const MyPrayersView = {
             </div>
             <h3 style="font-size: 1.3rem; color: #FFFFFF;">No Intercessions Lifted Yet</h3>
             <p style="color: var(--color-text-muted); margin-top: 0.5rem; max-width: 400px; margin-inline: auto;">
-              When you click "I Prayed" on the Flaming Wall, those petitions are kept in your prayer journal so you can continue holding them up before God.
+              When you click "I Prayed" on the Prayer Wall, those petitions are kept in your prayer journal so you can continue holding them up before God.
             </p>
             <a href="#/prayers" class="btn btn-gold btn-sm" style="margin-top: 1.25rem;">
-              Visit Flaming Wall
+              Visit Prayer Wall
             </a>
           </div>
         `;

@@ -26,7 +26,7 @@ async function runTests() {
   const pastorLogin = await fetch(`${baseUrl}/auth/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email: 'pastor@flamingprayerwall.org', password: 'pastor123' })
+    body: JSON.stringify({ email: 'pastor@prayerwall.org', password: 'pastor123' })
   });
   assert.strictEqual(pastorLogin.status, 200);
   const pastorData = await pastorLogin.json();

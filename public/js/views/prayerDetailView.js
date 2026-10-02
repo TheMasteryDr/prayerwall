@@ -1,5 +1,5 @@
 /**
- * Prayer Detail View (Dedicated Page: #/prayers/:id) - Flaming Prayer Wall
+ * Prayer Detail View (Dedicated Page: #/prayers/:id) - Prayer Wall
  */
 const PrayerDetailView = {
   async render(prayerId) {
@@ -9,7 +9,7 @@ const PrayerDetailView = {
     main.innerHTML = `
       <div class="container" style="padding-top: var(--space-2xl);">
         <a href="#/prayers" class="btn btn-ghost btn-sm" style="margin-bottom: 1rem;">
-          &larr; Back to Flaming Prayer Wall
+          &larr; Back to Prayer Wall
         </a>
         <div class="skeleton skeleton-card" style="height: 350px;"></div>
       </div>

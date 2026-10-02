@@ -1,5 +1,5 @@
 /**
- * Centralized API Client for Flaming Prayer Wall
+ * Centralized API Client for Prayer Wall
  * Features:
  * - Live Express API integration for local development & Vercel serverless
  * - Resilient Client-Side Fallback Engine ensuring the site never breaks or shows blank skeletons
@@ -160,10 +160,10 @@ const API = {
         pastorPrayedCount: 19
       },
       settings: {
-        platform_name: 'Flaming Prayer Wall',
+        platform_name: 'Prayer Wall',
         pastor_name: 'PDaniel Olawande',
         pastor_title: 'Convener of YMR & Lead Pastor, The Envoys',
-        church_name: 'Flaming Network / The Envoys',
+        church_name: 'The Envoys',
         scripture_verse: 'The fire shall ever be burning upon the altar; it shall never go out.',
         scripture_ref: 'Leviticus 6:13'
       },
@@ -209,7 +209,7 @@ const API = {
         email: 'pastor@flamingprayerwall.org',
         role: 'pastor',
         avatar: '/images/pdaniel.jpg',
-        bio: 'Lead Pastor, The Envoys & Convener of YMR / The Flaming Network.',
+        bio: 'Lead Pastor, The Envoys & Convener of YMR.',
         petitions_count: 5,
         prayers_lifted: 84,
         created_at: '2026-09-01T08:00:00.000Z'
@@ -285,10 +285,10 @@ const API = {
           pastorPrayedCount: pastorCount + 15
         },
         settings: {
-          platform_name: 'Flaming Prayer Wall',
+          platform_name: 'Prayer Wall',
           pastor_name: 'PDaniel Olawande',
           pastor_title: 'Convener of YMR & Lead Pastor, The Envoys',
-          church_name: 'Flaming Network / The Envoys',
+          church_name: 'The Envoys',
           scripture_verse: 'The fire shall ever be burning upon the altar; it shall never go out.',
           scripture_ref: 'Leviticus 6:13'
         },
@@ -426,16 +426,16 @@ const API = {
       const email = (payload.email || '').toLowerCase().trim();
       const password = payload.password || '';
 
-      if (email === 'pastor@flamingprayerwall.org') {
+      if (email === 'pastor@flamingprayerwall.org' || email === 'pastor@prayerwall.org') {
         if (password !== 'pastor123') {
           throw new Error('Invalid email address or password.');
         }
         const user = {
           id: 1,
           name: 'PDaniel Olawande',
-          email: 'pastor@flamingprayerwall.org',
+          email: 'pastor@prayerwall.org',
           role: 'pastor',
-          bio: 'Lead Pastor, The Envoys & Convener of YMR / Flaming Network.'
+          bio: 'Lead Pastor, The Envoys & Convener of YMR.'
         };
         const token = 'flaming-token-pastor';
         this.setToken(token);
@@ -488,7 +488,7 @@ const API = {
         user: isPastor ? {
           id: 1,
           name: 'PDaniel Olawande',
-          email: 'pastor@flamingprayerwall.org',
+          email: 'pastor@prayerwall.org',
           role: 'pastor'
         } : {
           id: 2,

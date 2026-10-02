@@ -1,5 +1,5 @@
 /**
- * Prayer Card Component - Flaming Prayer Wall
+ * Prayer Card Component - Prayer Wall
  */
 const PrayerCard = {
   render(prayer, options = {}) {

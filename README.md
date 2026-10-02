@@ -1,6 +1,6 @@
-# 🔥 Flaming Prayer Wall
+# 🔥 Prayer Wall
 > *"The fire on the altar must be kept burning; it must not go out."* — Leviticus 6:12  
-> **Convener & Lead Shepherd:** PDaniel Olawande (*Flaming Network / The Envoys / YMR*)
+> **Convener & Lead Shepherd:** PDaniel Olawande (*The Envoys / YMR*)
 
 A sacred, modern, and responsive Christian prayer platform built for fervent intercession, community prayer support, and verified pastoral responses.
 
@@ -8,12 +8,12 @@ A sacred, modern, and responsive Christian prayer platform built for fervent int
 
 ## ✨ Features
 
-- **The Flaming Prayer Wall**: A public altar where believers lay their petitions, categorize requests (Healing, Family, Deliverance, Spiritual Growth, etc.), and read active petitions.
+- **The Prayer Wall**: A public altar where believers lay their petitions, categorize requests (Healing, Family, Deliverance, Spiritual Growth, etc.), and read active petitions.
 - **"I Prayed" Intercession Counter**: One-click intercession button with duplicate-prevention mechanism (IP/fingerprint hashing for guests, user ID mapping for members).
 - **Personal Pastoral Prayer by PDaniel Olawande**: Dedicated pastoral intercessory workflow. Petitions answered by Pastor Daniel are highlighted with a gold emblem, verified shepherd badge, and his direct prophetic prayers.
-- **Sacred Dark Theme & Regal Typography**: Custom obsidian and altar slate palette (`#070B12`, `#0E1524`, `#F59E0B`) with **Cinzel** (classical roman serif) and **Plus Jakarta Sans** (humanist sans-serif).
+- **Sacred Dark Theme & Regal Typography**: Custom obsidian and altar slate palette (`#070B12`, `#0E1524`, `#F59E0B`) with **Helvetica** and **Plus Jakarta Sans** (humanist sans-serif).
 - **Three-Tier Privacy Options**:
-  - `Public`: Appears on the main Flaming Prayer Wall.
+  - `Public`: Appears on the main Prayer Wall.
   - `Pastor Only (Confidential)`: Encrypted and visible solely to Pastor Daniel and the author.
   - `Unlisted / Link Only`: Accessible only via a direct secret URL.
 - **Anonymous Petitions**: Option to withhold the author's real name while receiving prayer.

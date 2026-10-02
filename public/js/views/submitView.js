@@ -1,5 +1,5 @@
 /**
- * Prayer Submission View - Flaming Prayer Wall
+ * Prayer Submission View - Prayer Wall
  */
 const SubmitView = {
   categories: [],
@@ -96,7 +96,7 @@ const SubmitView = {
                   <input type="radio" name="visibility" id="privacy-public" value="public" checked>
                   <div>
                     <strong style="display: flex; align-items: center; gap: 6px; font-size: 0.95rem; color: #FFFFFF;">
-                      ${Icons.get('globe', { size: 15, color: 'var(--color-gold)' })} Flaming Public Wall
+                      ${Icons.get('globe', { size: 15, color: 'var(--color-gold)' })} Public Prayer Wall
                     </strong>
                     <span style="font-size: 0.82rem; color: var(--color-text-muted);">
                       Shown on the prayer wall for believers worldwide and PDaniel Olawande to pray.
@@ -239,7 +239,7 @@ const SubmitView = {
           <p style="color: var(--color-text-muted); line-height: 1.65; max-width: 520px;">
             ${visibility === 'private'
               ? 'Your private petition is in PDaniel Olawande’s pastoral prayer queue. He will intercede over your request in the Spirit.'
-              : 'Your petition is now live on the Flaming Prayer Wall. Believers across the fellowship are now standing in agreement with you.'}
+              : 'Your petition is now live on the Prayer Wall. Believers across the fellowship are now standing in agreement with you.'}
           </p>
 
           <div style="background-color: var(--pastor-bg); border: 1px solid var(--pastor-border); border-radius: var(--radius-md); padding: 1rem; width: 100%; margin-top: 0.5rem;">

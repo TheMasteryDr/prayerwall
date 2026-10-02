@@ -1,5 +1,5 @@
 /**
- * Prayer Wall View (Server-Side Paginated, Search, Filterable) - Flaming Prayer Wall
+ * Prayer Wall View (Server-Side Paginated, Search, Filterable) - Prayer Wall
  */
 const PrayerWallView = {
   state: {
@@ -28,7 +28,7 @@ const PrayerWallView = {
       <div class="container" style="padding-top: var(--space-2xl);">
         <div class="section-header">
           <div>
-            <h1 style="font-size: 2.25rem;">The Flaming Prayer Wall</h1>
+            <h1 style="font-size: 2.25rem;">The Prayer Wall</h1>
             <p class="section-subtitle">
               Read the petitions of fellow believers, intercede with Holy Ghost fire, and see PDaniel Olawande's prayers.
             </p>

@@ -54,7 +54,7 @@ async function seedDatabase() {
     pastorHash,
     'pastor',
     '/images/pdaniel.jpg',
-    'Lead Pastor, The Envoys & Convener of YMR (Young Ministers Retreat) / The Flaming Network. Walking in the fire of the Holy Ghost and interceding for believers worldwide.',
+    'Lead Pastor, The Envoys & Convener of YMR (Young Ministers Retreat). Walking in the fire of the Holy Ghost and interceding for believers worldwide.',
     now,
     now
   );
@@ -101,10 +101,10 @@ async function seedDatabase() {
 
   // Initial Seed Platform Settings
   const insertSetting = db.prepare('INSERT INTO platform_settings (key, value) VALUES (?, ?)');
-  insertSetting.run('platform_name', 'Flaming Prayer Wall');
+  insertSetting.run('platform_name', 'Prayer Wall');
   insertSetting.run('pastor_name', 'PDaniel Olawande');
   insertSetting.run('pastor_title', 'Convener of YMR & Lead Pastor, The Envoys');
-  insertSetting.run('church_name', 'Flaming Network / The Envoys');
+  insertSetting.run('church_name', 'The Envoys');
   insertSetting.run('scripture_verse', 'The fire shall ever be burning upon the altar; it shall never go out.');
   insertSetting.run('scripture_ref', 'Leviticus 6:13');
   insertSetting.run('pagination_size', '12');

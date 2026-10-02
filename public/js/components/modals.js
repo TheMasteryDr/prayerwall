@@ -1,5 +1,5 @@
 /**
- * Modal Dialogs Manager - Flaming Prayer Wall
+ * Modal Dialogs Manager - Prayer Wall
  */
 const Modals = {
   activeModal: null,
@@ -36,7 +36,7 @@ const Modals = {
     overlay.innerHTML = `
       <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title">
         <div class="modal-header">
-          <h3 class="modal-title" id="auth-modal-title">Sign In to Flaming Prayer Wall</h3>
+          <h3 class="modal-title" id="auth-modal-title">Sign In to Prayer Wall</h3>
           <button class="modal-close-btn" aria-label="Close modal">
             ${Icons.get('close', { size: 18 })}
           </button>
@@ -57,7 +57,7 @@ const Modals = {
           <form id="login-form">
             <div class="form-group">
               <label class="form-label" for="login-email">Email Address</label>
-              <input type="email" id="login-email" class="form-input" required autocomplete="email" placeholder="e.g. pastor@flamingprayerwall.org">
+              <input type="email" id="login-email" class="form-input" required autocomplete="email" placeholder="e.g. pastor@prayerwall.org">
             </div>
             <div class="form-group">
               <label class="form-label" for="login-password">Password</label>
@@ -271,7 +271,7 @@ const Modals = {
 
     const shareUrl = `${window.location.origin}/#/prayers/${prayerId}`;
     const encodedUrl = encodeURIComponent(shareUrl);
-    const encodedTitle = encodeURIComponent(`Please stand with us in prayer on the Flaming Prayer Wall: "${title}"`);
+    const encodedTitle = encodeURIComponent(`Please stand with us in prayer on the Prayer Wall: "${title}"`);
 
     overlay.innerHTML = `
       <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="share-modal-title">
@@ -341,7 +341,7 @@ const Modals = {
     if (nativeBtn) {
       nativeBtn.addEventListener('click', () => {
         navigator.share({
-          title: `Flaming Prayer Wall`,
+          title: `Prayer Wall`,
           text: title,
           url: shareUrl
         }).catch(() => {});

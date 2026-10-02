@@ -41,7 +41,7 @@ router.post('/register', async (req, res) => {
 
     const token = generateToken(newUser);
     return res.status(201).json({
-      message: 'Account created successfully. Welcome to Flaming Prayer Wall.',
+      message: 'Account created successfully. Welcome to Prayer Wall.',
       token,
       user: newUser
     });
@@ -60,7 +60,10 @@ router.post('/login', async (req, res) => {
     }
 
     const trimmedEmail = email.trim().toLowerCase();
-    const user = db.prepare('SELECT * FROM users WHERE email = ?').get(trimmedEmail);
+    let user = db.prepare('SELECT * FROM users WHERE email = ?').get(trimmedEmail);
+    if (!user && (trimmedEmail === 'pastor@prayerwall.org' || trimmedEmail === 'pastor@flamingprayerwall.org')) {
+      user = db.prepare('SELECT * FROM users WHERE role = ? LIMIT 1').get('pastor');
+    }
     if (!user) {
       return res.status(401).json({ error: 'Invalid email address or password.' });
     }

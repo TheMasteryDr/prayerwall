@@ -1,5 +1,5 @@
 /**
- * Pastor & Administrator Command Center View - Flaming Prayer Wall
+ * Pastor & Administrator Command Center View - Prayer Wall
  */
 const AdminView = {
   activeQueue: 'awaiting', // 'awaiting', 'private', 'prayed', 'reports', 'members', 'settings'
@@ -461,7 +461,7 @@ const AdminView = {
           <form id="admin-settings-form">
             <div class="form-group">
               <label class="form-label" for="set-platform-name">Platform Title</label>
-              <input type="text" id="set-platform-name" class="form-input" value="${escapeHTML(settings.platform_name || 'Flaming Prayer Wall')}" required>
+              <input type="text" id="set-platform-name" class="form-input" value="${escapeHTML(settings.platform_name || 'Prayer Wall')}" required>
             </div>
 
             <div class="form-group">
@@ -471,7 +471,7 @@ const AdminView = {
 
             <div class="form-group">
               <label class="form-label" for="set-church-name">Ministry / Fellowship</label>
-              <input type="text" id="set-church-name" class="form-input" value="${escapeHTML(settings.church_name || 'Flaming Network / The Envoys')}">
+              <input type="text" id="set-church-name" class="form-input" value="${escapeHTML(settings.church_name || 'The Envoys')}">
             </div>
 
             <div class="form-group">

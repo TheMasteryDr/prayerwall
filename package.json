@@ -1,7 +1,7 @@
 {
   "name": "pdaniel-prayer",
   "version": "1.0.0",
-  "description": "Flaming Prayer Wall - Fire On My Altar Continuous Intercession Platform",
+  "description": "Prayer Wall - Fire On My Altar Continuous Intercession Platform",
   "main": "server/index.js",
   "scripts": {
     "start": "node server/index.js",
