@@ -104,7 +104,11 @@ app.use((req, res, next) => {
   next();
 });
 
-// Start Server
-app.listen(PORT, () => {
-  console.log(`Flaming Prayer Wall running at http://localhost:${PORT}`);
-});
+// Start Server (only when not running inside Vercel serverless environment)
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`Flaming Prayer Wall running at http://localhost:${PORT}`);
+  });
+}
+
+module.exports = app;

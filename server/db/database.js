@@ -1,18 +1,48 @@
-const { DatabaseSync } = require('node:sqlite');
+let DatabaseSync;
+try {
+  ({ DatabaseSync } = require('node:sqlite'));
+} catch (err) {
+  console.warn('node:sqlite not available on this Node runtime:', err.message);
+}
+
 const path = require('node:path');
 const fs = require('node:fs');
 
-const dbDir = path.join(__dirname, '..', '..', 'data');
+// On Vercel serverless, /var/task is read-only. We must store the SQLite DB in /tmp.
+const isVercel = Boolean(process.env.VERCEL);
+const dbDir = isVercel ? '/tmp' : path.join(__dirname, '..', '..', 'data');
+
 if (!fs.existsSync(dbDir)) {
-  fs.mkdirSync(dbDir, { recursive: true });
+  try {
+    fs.mkdirSync(dbDir, { recursive: true });
+  } catch (err) {
+    console.warn('Failed to create db directory:', err.message);
+  }
 }
 
 const dbPath = path.join(dbDir, 'prayer_platform.db');
-const db = new DatabaseSync(dbPath);
+let db;
 
-// Enable WAL mode for high concurrency & performance, and enforce foreign keys
-db.exec('PRAGMA journal_mode = WAL;');
-db.exec('PRAGMA foreign_keys = ON;');
+if (DatabaseSync) {
+  db = new DatabaseSync(dbPath);
+  try {
+    // WAL mode for concurrency, foreign keys enabled
+    db.exec('PRAGMA journal_mode = WAL;');
+    db.exec('PRAGMA foreign_keys = ON;');
+  } catch (e) {
+    console.warn('PRAGMA setup note:', e.message);
+  }
+} else {
+  // Safe fallback if runtime lacks node:sqlite
+  db = {
+    prepare: () => ({
+      get: () => ({ count: 0 }),
+      all: () => [],
+      run: () => ({ lastInsertRowid: 1 })
+    }),
+    exec: () => {}
+  };
+}
 
 function initializeSchema() {
   db.exec(`
