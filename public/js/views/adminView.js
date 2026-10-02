@@ -22,23 +22,16 @@ const AdminView = {
               This area is reserved strictly for PDaniel Olawande and ordained pastoral staff to review confidential petitions and shepherd the prayer community.
             </p>
             <div style="margin-top: 1.25rem;">
-              <button class="btn btn-gold quick-pastor-login-btn">
-                🔥 Sign in as PDaniel Olawande
+              <button class="btn btn-gold open-pastor-auth-modal-btn">
+                🔒 Sign In with Pastoral Account
               </button>
             </div>
           </div>
         </div>
       `;
 
-      main.querySelector('.quick-pastor-login-btn')?.addEventListener('click', async () => {
-        try {
-          const res = await API.demoLogin('pastor');
-          State.setCurrentUser(res.user, res.token);
-          Toast.show('Welcome, PDaniel Olawande', 'success');
-          AdminView.render();
-        } catch (err) {
-          Toast.show(err.message, 'error');
-        }
+      main.querySelector('.open-pastor-auth-modal-btn')?.addEventListener('click', () => {
+        Modals.openAuthModal();
       });
       return;
     }

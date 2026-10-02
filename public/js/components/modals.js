@@ -46,21 +46,6 @@ const Modals = {
         </div>
 
         <div class="modal-body">
-          <!-- Quick Demo Switch Bar -->
-          <div style="background-color: #141C2E; border: 1px solid var(--color-gold-border); border-radius: var(--radius-md); padding: 0.75rem; margin-bottom: 1.25rem;">
-            <div style="font-size: 0.82rem; font-weight: 700; color: var(--color-gold); margin-bottom: 0.4rem; text-transform: uppercase;">
-              ⚡ Quick 1-Click Role Logins
-            </div>
-            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-              <button class="btn btn-sm btn-gold quick-auth-btn" data-role="pastor" style="flex: 1;">
-                🔥 PDaniel Olawande
-              </button>
-              <button class="btn btn-sm btn-outline quick-auth-btn" data-role="member" style="flex: 1;">
-                👤 Sister Sarah (Member)
-              </button>
-            </div>
-          </div>
-
           <!-- Tabs -->
           <div style="display: flex; border-bottom: 1px solid var(--color-border); margin-bottom: 1.25rem;">
             <button id="tab-login" class="btn btn-ghost btn-sm" style="flex: 1; border-bottom: 2px solid var(--color-gold); font-weight: 700; color: #FFFFFF;">
@@ -136,22 +121,6 @@ const Modals = {
     overlay.querySelector('.modal-close-btn').addEventListener('click', () => this.closeAll());
     overlay.addEventListener('click', (e) => {
       if (e.target === overlay) this.closeAll();
-    });
-
-    // Quick demo buttons
-    overlay.querySelectorAll('.quick-auth-btn').forEach(btn => {
-      btn.addEventListener('click', async () => {
-        try {
-          const role = btn.dataset.role;
-          const res = await API.demoLogin(role);
-          State.setCurrentUser(res.user, res.token);
-          Toast.show(res.message, 'success');
-          this.closeAll();
-          window.dispatchEvent(new HashChangeEvent('hashchange'));
-        } catch (err) {
-          Toast.show('Error: ' + err.message, 'error');
-        }
-      });
     });
 
     // Handle Login Submit

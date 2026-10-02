@@ -44,24 +44,8 @@ const Navbar = {
           ` : ''}
         </ul>
 
-        <!-- Action Items / Auth / Demo Switcher -->
+        <!-- Action Items / Auth -->
         <div class="header-actions">
-          <!-- Quick Demo Persona Switcher (Convenient for grading & verification) -->
-          <div class="demo-switcher" style="display: flex; align-items: center; gap: 4px; background: #0F172A; border: 1px solid var(--color-border); padding: 3px 6px; border-radius: var(--radius-full); font-size: 0.78rem;">
-            <span style="color: var(--color-text-light); font-size: 0.72rem; padding-inline: 4px; font-weight: 600;">Role:</span>
-            <button class="btn-ghost btn-sm demo-btn" data-role="pastor" title="Switch to PDaniel Olawande" style="padding: 2px 7px; border-radius: 99px; ${isPastor ? 'background: var(--color-gold); color: #070B12; font-weight: 800;' : ''}">
-              🔥 PDaniel
-            </button>
-            <button class="btn-ghost btn-sm demo-btn" data-role="member" title="Switch to Member Sarah" style="padding: 2px 7px; border-radius: 99px; ${user && !isPastor ? 'background: #334155; color: #fff; font-weight: 700;' : ''}">
-              👤 Member
-            </button>
-            ${user ? `
-              <button class="btn-ghost btn-sm logout-btn" title="Sign out to Guest" style="padding: 2px 7px; border-radius: 99px; color: var(--color-text-muted);">
-                🚪 Out
-              </button>
-            ` : ''}
-          </div>
-
           ${user ? `
             <!-- Notifications Bell -->
             <button class="btn btn-ghost btn-sm notif-bell-btn" title="Notifications" style="position: relative; padding: 0.5rem;">
@@ -76,11 +60,17 @@ const Navbar = {
               ` : ''}
             </button>
 
-            <!-- User Menu -->
-            <div style="display: flex; align-items: center; gap: 8px;">
-              <span style="font-size: 0.88rem; font-weight: 600; color: #FFFFFF; max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                ${escapeHTML(user.name)}
-              </span>
+            <!-- User Info & Sign Out -->
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <div style="display: flex; flex-direction: column; align-items: flex-end; line-height: 1.2;">
+                <span style="font-size: 0.88rem; font-weight: 700; color: #FFFFFF; max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                  ${escapeHTML(user.name)}
+                </span>
+                ${isPastor ? `<span style="font-size: 0.72rem; color: var(--color-gold); font-weight: 600;">Verified Shepherd</span>` : `<span style="font-size: 0.72rem; color: var(--color-text-muted);">Altar Member</span>`}
+              </div>
+              <button class="btn btn-outline btn-sm logout-btn" style="padding: 0.35rem 0.75rem; font-size: 0.8rem; border-color: rgba(255,255,255,0.2);">
+                Sign Out
+              </button>
             </div>
           ` : `
             <button class="btn btn-outline btn-sm open-login-btn">
@@ -104,24 +94,11 @@ const Navbar = {
     `;
 
     // Attach listeners
-    header.querySelectorAll('.demo-btn').forEach(btn => {
-      btn.addEventListener('click', async () => {
-        const role = btn.dataset.role;
-        try {
-          const res = await API.demoLogin(role);
-          State.setCurrentUser(res.user, res.token);
-          Toast.show(res.message, 'success');
-          window.dispatchEvent(new HashChangeEvent('hashchange'));
-        } catch (err) {
-          Toast.show('Error switching demo account: ' + err.message, 'error');
-        }
-      });
-    });
-
     const logoutBtn = header.querySelector('.logout-btn');
     if (logoutBtn) {
       logoutBtn.addEventListener('click', () => {
         State.logout();
+        Toast.show('You have been signed out.', 'info');
         window.dispatchEvent(new HashChangeEvent('hashchange'));
       });
     }

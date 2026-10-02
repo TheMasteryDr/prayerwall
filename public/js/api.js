@@ -350,26 +350,79 @@ const API = {
       return { message: 'Encouragement posted.', comment: newComment };
     }
 
-    // 8. Auth Demo Login
-    if (pathPart === '/auth/demo-login' && method === 'POST') {
+    // 8. Auth Login (Credential Verification)
+    if (pathPart === '/auth/login' && method === 'POST') {
       const payload = JSON.parse(options.body || '{}');
-      const isPastor = payload.role === 'pastor';
-      const user = isPastor ? {
-        id: 1,
-        name: 'PDaniel Olawande',
-        email: 'pastor@flamingprayerwall.org',
-        role: 'pastor',
-        bio: 'Convener of YMR and Lead Pastor, The Envoys. Raising a burning generation.'
-      } : {
-        id: 2,
-        name: 'Sarah Jenkins',
-        email: 'sarah@example.com',
+      const email = (payload.email || '').toLowerCase().trim();
+      const password = payload.password || '';
+
+      if (email === 'pastor@flamingprayerwall.org') {
+        if (password !== 'pastor123') {
+          throw new Error('Invalid email address or password.');
+        }
+        const user = {
+          id: 1,
+          name: 'PDaniel Olawande',
+          email: 'pastor@flamingprayerwall.org',
+          role: 'pastor',
+          bio: 'Lead Pastor, The Envoys & Convener of YMR / Flaming Network.'
+        };
+        const token = 'flaming-token-pastor';
+        this.setToken(token);
+        return { token, user, message: 'Welcome Pastor Daniel Olawande' };
+      }
+
+      if (email === 'sarah@example.com') {
+        if (password !== 'member123') {
+          throw new Error('Invalid email address or password.');
+        }
+        const user = {
+          id: 2,
+          name: 'Sarah Jenkins',
+          email: 'sarah@example.com',
+          role: 'user',
+          bio: 'Intercessor standing in faith.'
+        };
+        const token = 'flaming-token-member';
+        this.setToken(token);
+        return { token, user, message: 'Welcome back, Sarah Jenkins.' };
+      }
+
+      if (!password || password.length < 6) {
+        throw new Error('Invalid email address or password.');
+      }
+
+      const user = {
+        id: Date.now(),
+        name: email.split('@')[0],
+        email: email,
         role: 'user',
-        bio: 'Intercessor standing in the gap for families and healing.'
+        bio: 'Intercessor.'
       };
-      const token = 'flaming-local-token-' + user.role;
+      const token = 'flaming-token-member';
       this.setToken(token);
-      return { token, user };
+      return { token, user, message: 'Welcome back.' };
+    }
+
+    // 9. Auth Register
+    if (pathPart === '/auth/register' && method === 'POST') {
+      const payload = JSON.parse(options.body || '{}');
+      const email = (payload.email || '').toLowerCase().trim();
+      const name = payload.name || 'Altar Member';
+      const password = payload.password || '';
+      if (!email || !password || password.length < 6) {
+        throw new Error('Password must be at least 6 characters.');
+      }
+      const user = {
+        id: Date.now(),
+        name,
+        email,
+        role: 'user',
+        bio: 'Intercessor.'
+      };
+      const token = 'flaming-token-member';
+      this.setToken(token);
+      return { token, user, message: 'Account created successfully.' };
     }
 
     // 9. Auth Me
