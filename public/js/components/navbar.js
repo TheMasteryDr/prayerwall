@@ -98,7 +98,7 @@ const Navbar = {
               </button>
 
               <!-- Profile Capsule -->
-              <div class="user-profile-pill">
+              <div class="user-profile-pill" style="cursor: pointer;" title="View Journal / Profile">
                 <div class="user-avatar-wrap">
                   ${isPastor 
                     ? `<img src="/images/pdaniel.jpg" alt="PDaniel Olawande" class="user-avatar-img">`
@@ -109,8 +109,8 @@ const Navbar = {
                   <span class="user-name-text">${escapeHTML(user.name)}</span>
                   <span class="user-role-label ${isPastor ? 'pastor-role' : ''}">
                     ${isPastor 
-                      ? `${Icons.get('shieldCheck', { size: 11, color: 'var(--color-gold)' })} Verified Shepherd` 
-                      : 'Altar Intercessor'
+                      ? `${Icons.get('shieldCheck', { size: 11, color: 'var(--color-gold)' })} Shepherd` 
+                      : 'Intercessor'
                     }
                   </span>
                 </div>
@@ -125,8 +125,8 @@ const Navbar = {
           ` : `
             <!-- Guest / Unauthenticated Actions -->
             <button class="btn btn-outline btn-sm open-login-btn">
-              ${Icons.get('user', { size: 15 })}
-              <span>Sign In</span>
+              ${Icons.get('user', { size: 14 })}
+              <span class="login-btn-label">Sign In</span>
             </button>
             <a href="#/submit" class="btn btn-gold btn-sm header-cta-btn">
               ${Icons.get('flame', { size: 15, color: '#070B12' })}
@@ -134,24 +134,28 @@ const Navbar = {
             </a>
           `}
 
-          <!-- Mobile Toggle with open & close state -->
-          <button class="mobile-nav-toggle" id="mobile-nav-toggle" aria-label="Toggle Navigation Menu">
+          <!-- Prominent Mobile Collapse Toggle -->
+          <button class="mobile-nav-toggle" id="mobile-nav-toggle" aria-label="Toggle Navigation Menu" aria-expanded="false">
             <span class="toggle-icon-hamburger">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
                 <line x1="3" y1="12" x2="21" y2="12"></line>
                 <line x1="3" y1="6" x2="21" y2="6"></line>
                 <line x1="3" y1="18" x2="21" y2="18"></line>
               </svg>
+              <span class="mobile-toggle-label">Menu</span>
             </span>
             <span class="toggle-icon-close" style="display: none;">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
                 <line x1="18" y1="6" x2="6" y2="18"></line>
                 <line x1="6" y1="6" x2="18" y2="18"></line>
               </svg>
+              <span class="mobile-toggle-label">Close</span>
             </span>
           </button>
         </div>
       </div>
+      <!-- Dimmed backdrop overlay for mobile drawer -->
+      <div class="mobile-menu-backdrop" id="mobile-menu-backdrop"></div>
     `;
 
     // Attach event listeners
@@ -171,6 +175,13 @@ const Navbar = {
       });
     }
 
+    const profilePill = header.querySelector('.user-profile-pill');
+    if (profilePill) {
+      profilePill.addEventListener('click', () => {
+        window.location.hash = State.isPastor() ? '#/admin' : '#/my-prayers';
+      });
+    }
+
     const notifBell = header.querySelector('.notif-bell-btn');
     if (notifBell) {
       notifBell.addEventListener('click', () => {
@@ -180,6 +191,7 @@ const Navbar = {
 
     const mobileToggle = header.querySelector('#mobile-nav-toggle');
     const navLinks = header.querySelector('#desktop-nav-links');
+    const backdrop = header.querySelector('#mobile-menu-backdrop');
     if (mobileToggle && navLinks) {
       const openIcon = mobileToggle.querySelector('.toggle-icon-hamburger');
       const closeIcon = mobileToggle.querySelector('.toggle-icon-close');
@@ -187,12 +199,18 @@ const Navbar = {
       const setDrawerState = (open) => {
         if (open) {
           navLinks.classList.add('mobile-open');
+          mobileToggle.classList.add('is-active');
+          mobileToggle.setAttribute('aria-expanded', 'true');
           if (openIcon) openIcon.style.display = 'none';
           if (closeIcon) closeIcon.style.display = 'inline-flex';
+          if (backdrop) backdrop.classList.add('active');
         } else {
           navLinks.classList.remove('mobile-open');
+          mobileToggle.classList.remove('is-active');
+          mobileToggle.setAttribute('aria-expanded', 'false');
           if (openIcon) openIcon.style.display = 'inline-flex';
           if (closeIcon) closeIcon.style.display = 'none';
+          if (backdrop) backdrop.classList.remove('active');
         }
       };
 
@@ -200,6 +218,10 @@ const Navbar = {
         e.stopPropagation();
         setDrawerState(!navLinks.classList.contains('mobile-open'));
       });
+
+      if (backdrop) {
+        backdrop.addEventListener('click', () => setDrawerState(false));
+      }
 
       // Close mobile drawer when clicking a link
       navLinks.querySelectorAll('a').forEach(a => {
@@ -227,9 +249,15 @@ const Navbar = {
         });
       }
 
-      // Close mobile drawer on outside click
+      // Close mobile drawer on outside click or Escape key
       document.addEventListener('click', (e) => {
         if (!header.contains(e.target)) {
+          setDrawerState(false);
+        }
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && navLinks.classList.contains('mobile-open')) {
           setDrawerState(false);
         }
       });
